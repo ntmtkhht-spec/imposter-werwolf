@@ -68,7 +68,7 @@ export default function CategoryPicker({
                 >
                   ✓
                 </span>
-                <CategoryIcon categoryId={c.id} fallbackEmoji={c.icon} size={84} />
+                <CategoryIcon categoryId={c.id} fallbackEmoji={c.icon} size={120} />
                 <span className="line-clamp-2 text-sm font-semibold leading-tight">
                   {c.name}
                 </span>
