@@ -141,7 +141,7 @@ export default function NightScreen({
                   selected={seerTarget}
                   onPick={(i) => {
                     setSeerTarget(i);
-                    setSeerRevealed(false);
+                    setSeerRevealed(true);
                   }}
                 />
               </>
