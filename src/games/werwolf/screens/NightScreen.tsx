@@ -53,7 +53,6 @@ export default function NightScreen({
 
   const [victim, setVictim] = useState<number | null>(null);
   const [seerTarget, setSeerTarget] = useState<number | null>(null);
-  const [seerRevealed, setSeerRevealed] = useState(false);
   const [healNow, setHealNow] = useState(false);
   const [poisonPicking, setPoisonPicking] = useState(false);
   const [poisonTarget, setPoisonTarget] = useState<number | null>(null);
@@ -117,27 +116,13 @@ export default function NightScreen({
               <p className="mx-auto max-w-xs font-semibold">{w.seerWake}</p>
             </div>
             {seerTargetPlayer ? (
-              <button
-                onClick={() => setSeerRevealed((r) => !r)}
-                className="mx-auto flex w-full max-w-xs flex-col items-center rounded-3xl bg-slate-100 p-6 text-center text-slate-800"
-              >
-                {seerRevealed ? (
-                  <>
-                    <RoleIcon role={seerTargetPlayer.role} size={90} className="mb-3" />
-                    <div className="font-bold">{seerTargetPlayer.name}</div>
-                    <div className="text-sm text-slate-500">
-                      {w.seerResultIs} {t.werwolf.roles[seerTargetPlayer.role].name}
-                    </div>
-                    <div className="mt-3 text-xs text-slate-400">{w.seerHide}</div>
-                  </>
-                ) : (
-                  <>
-                    <div className="mb-2 text-5xl">👁️</div>
-                    <div className="font-bold">{seerTargetPlayer.name}</div>
-                    <div className="mt-2 text-xs text-slate-400">{w.seerReveal}</div>
-                  </>
-                )}
-              </button>
+              <div className="mx-auto flex w-full max-w-xs flex-col items-center rounded-3xl bg-slate-100 p-6 text-center text-slate-800">
+                <RoleIcon role={seerTargetPlayer.role} size={90} className="mb-3" />
+                <div className="font-bold">{seerTargetPlayer.name}</div>
+                <div className="text-sm text-slate-500">
+                  {w.seerResultIs} {t.werwolf.roles[seerTargetPlayer.role].name}
+                </div>
+              </div>
             ) : (
               <>
                 <h3 className="mb-2 px-1 text-sm font-semibold text-slate-300">
@@ -146,10 +131,7 @@ export default function NightScreen({
                 <PlayerPicker
                   players={living.filter((p) => p.role !== 'seer')}
                   selected={seerTarget}
-                  onPick={(i) => {
-                    setSeerTarget(i);
-                    setSeerRevealed(true);
-                  }}
+                  onPick={(i) => setSeerTarget(i)}
                 />
               </>
             )}
