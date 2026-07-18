@@ -5,6 +5,7 @@ import RoleIcon from '../RoleIcon';
 import PlayerPicker from './PlayerPicker';
 import { useTimer, formatTime } from '../../../hooks/useTimer';
 import { livingPlayers, type WerwolfPlayer } from '../logic';
+import dayScene from '../../../assets/werwolf/day-scene.png';
 
 type Props = {
   players: WerwolfPlayer[];
@@ -45,6 +46,11 @@ export default function DayScreen({
       {phase === 'announce' && (
         <>
           <div className="flex flex-1 flex-col items-center justify-center text-center">
+            <img
+              src={dayScene}
+              alt=""
+              className="mb-6 w-56 max-w-full rounded-2xl shadow-lg shadow-amber-900/10 ring-1 ring-amber-900/10"
+            />
             {deadPlayers.length > 0 ? (
               <>
                 <p className="mb-6 font-semibold text-slate-500">{w.died}</p>
@@ -67,10 +73,7 @@ export default function DayScreen({
                 </div>
               </>
             ) : (
-              <>
-                <div className="mb-4 text-7xl">🌅</div>
-                <p className="text-lg font-semibold">{w.nobodyDied}</p>
-              </>
+              <p className="text-lg font-semibold">{w.nobodyDied}</p>
             )}
           </div>
           <button onClick={() => setPhase('discuss')} className="btn-primary w-full">

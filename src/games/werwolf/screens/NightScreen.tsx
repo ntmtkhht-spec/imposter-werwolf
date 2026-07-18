@@ -5,6 +5,9 @@ import PlayerPicker from './PlayerPicker';
 import { livingPlayers, type WerwolfPlayer } from '../logic';
 import { isWerewolf } from '../roles';
 import werwolfLogo from '../../../assets/werwolf/logo.png';
+import nightScene from '../../../assets/werwolf/night-scene.png';
+import heiltrankImg from '../../../assets/werwolf/heiltrank.png';
+import giftImg from '../../../assets/werwolf/gift.png';
 
 export type NightResult = {
   deaths: number[];
@@ -85,7 +88,11 @@ export default function NightScreen({
       <div className="relative z-10 flex flex-1 flex-col overflow-y-auto py-4">
         {step === 'intro' && (
           <div className="night-fade m-auto text-center">
-            <div className="night-moon mx-auto mb-8" />
+            <img
+              src={nightScene}
+              alt=""
+              className="mx-auto mb-6 w-64 max-w-full rounded-2xl shadow-xl shadow-black/40 ring-1 ring-white/10"
+            />
             <p className="mx-auto max-w-xs text-2xl font-bold tracking-tight text-white">
               {w.allClose}
             </p>
@@ -106,7 +113,7 @@ export default function NightScreen({
         {step === 'seer' && (
           <div>
             <div className="mb-4 text-center">
-              <div className="mb-3 text-6xl">🔮</div>
+              <RoleIcon role="seer" size={88} className="mx-auto mb-3" />
               <p className="mx-auto max-w-xs font-semibold">{w.seerWake}</p>
             </div>
             {seerTargetPlayer ? (
@@ -152,7 +159,7 @@ export default function NightScreen({
         {step === 'witch' && (
           <div>
             <div className="mb-4 text-center">
-              <div className="mb-3 text-6xl">🧪</div>
+              <RoleIcon role="witch" size={88} className="mx-auto mb-3" />
               <p className="mx-auto max-w-xs font-semibold">{w.witchWake}</p>
             </div>
 
@@ -181,16 +188,18 @@ export default function NightScreen({
                 {victim !== null && !witchHealUsed && (
                   <button
                     onClick={() => setHealNow((h) => !h)}
-                    className={`btn w-full ${healNow ? 'bg-green-600 text-white' : 'bg-slate-100 text-ink'}`}
+                    className={`btn w-full gap-2 ${healNow ? 'bg-green-600 text-white' : 'bg-slate-100 text-ink'}`}
                   >
+                    <img src={heiltrankImg} alt="" className="h-7 w-7 object-contain" />
                     {healNow ? w.healed : w.heal}
                   </button>
                 )}
                 {!witchPoisonUsed && (
                   <button
                     onClick={() => setPoisonPicking(true)}
-                    className={`btn w-full ${poisonTarget !== null ? 'bg-brand text-white' : 'bg-slate-100 text-ink'}`}
+                    className={`btn w-full gap-2 ${poisonTarget !== null ? 'bg-brand text-white' : 'bg-slate-100 text-ink'}`}
                   >
+                    <img src={giftImg} alt="" className="h-7 w-7 object-contain" />
                     {w.poison}
                     {poisonTarget !== null
                       ? `: ${players.find((p) => p.index === poisonTarget)?.name}`
