@@ -19,7 +19,6 @@ export default function RoleRevealScreen({ players, onDone }: Props) {
   const [revealed, setRevealed] = useState(false);
   const [dragY, setDragY] = useState(0);
   const [dragging, setDragging] = useState(false);
-  const [isSwipingOut, setIsSwipingOut] = useState(false);
   const dragStartY = useRef<number | null>(null);
   const dragYRef = useRef(0);
   const suppressClick = useRef(false);
@@ -27,17 +26,16 @@ export default function RoleRevealScreen({ players, onDone }: Props) {
   const isLast = current >= players.length - 1;
   const player = players[Math.min(current, players.length - 1)];
 
+  // Advance synchronously — no setTimeout, so the flip-back and the player
+  // change always commit together (a delayed version could drop the index
+  // change and just flip the card, leaving you stuck on the same player).
   const advance = () => {
-    setIsSwipingOut(true);
-    setTimeout(() => {
-      if (isLast) {
-        onDone();
-      } else {
-        setIsSwipingOut(false);
-        setRevealed(false);
-        setCurrent(current + 1);
-      }
-    }, 250);
+    if (isLast) {
+      onDone();
+      return;
+    }
+    setRevealed(false);
+    setCurrent((c) => c + 1);
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
@@ -82,7 +80,7 @@ export default function RoleRevealScreen({ players, onDone }: Props) {
       <div className="flex flex-1 flex-col items-center justify-center gap-4 [perspective:1200px]">
         <div
           key={current}
-          className={`w-full max-w-sm ${isSwipingOut ? 'animate-swipe-out' : 'animate-swipe-in'}`}
+          className="w-full max-w-sm animate-swipe-in"
         >
           <button
             onClick={handleClick}

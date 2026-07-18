@@ -24,5 +24,5 @@ export const ROLE_IMAGES: Record<string, string> = {
   villager: '/werwolfBilder/Dorfbewohner.png',
   seer: '/werwolfBilder/Seherin.png',
   witch: '/werwolfBilder/Hexe.png',
-  hunter: '/werwolfBilder/jäger.png',
+  hunter: '/werwolfBilder/jaeger.png',
 };
