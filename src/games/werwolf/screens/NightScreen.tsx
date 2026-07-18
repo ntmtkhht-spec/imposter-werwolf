@@ -111,7 +111,7 @@ export default function NightScreen({
             {seerTargetPlayer ? (
               <button
                 onClick={() => setSeerRevealed((r) => !r)}
-                className="mx-auto flex w-full max-w-xs flex-col items-center rounded-3xl bg-slate-100 p-6 text-center"
+                className="mx-auto flex w-full max-w-xs flex-col items-center rounded-3xl bg-slate-100 p-6 text-center text-slate-800"
               >
                 {seerRevealed ? (
                   <>
@@ -155,7 +155,7 @@ export default function NightScreen({
               <p className="mx-auto max-w-xs font-semibold">{w.witchWake}</p>
             </div>
 
-            <div className="mb-4 rounded-2xl bg-slate-100 p-4 text-center">
+            <div className="mb-4 rounded-2xl bg-slate-100 p-4 text-center text-slate-800">
               {victim !== null ? (
                 <p>
                   {w.victimIs}{' '}
