@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-slate-50 text-ink antialiased;
+    /* Fill dynamic viewport on mobile, respect notches */
+    min-height: 100dvh;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+}
+
+@layer components {
+  /* App shell centers a phone-width column on larger screens */
+  .app-shell {
+    @apply mx-auto flex min-h-[100dvh] w-full max-w-md flex-col bg-white;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .btn {
+    @apply inline-flex min-h-[52px] select-none items-center justify-center rounded-full px-6 text-base font-semibold transition active:scale-[0.98] disabled:opacity-40 disabled:active:scale-100;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-white;
+  }
+  .btn-brand {
+    @apply btn bg-brand text-white;
+  }
+  .btn-ghost {
+    @apply btn bg-slate-100 text-ink;
+  }
+}
