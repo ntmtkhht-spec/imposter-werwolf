@@ -25,6 +25,14 @@ export const games: GameEntry[] = [
     subtitle: (t) => t.imposter.tagline,
   },
   {
+    id: 'werwolf',
+    icon: '🐺',
+    path: '/spiel/werwolf',
+    status: 'live',
+    title: (t) => t.werwolf.name,
+    subtitle: (t) => t.werwolf.tagline,
+  },
+  {
     id: 'truthdare',
     icon: '🎯',
     status: 'soon',
