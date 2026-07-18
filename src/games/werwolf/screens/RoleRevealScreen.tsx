@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useI18n } from '../../../i18n';
 import type { WerwolfPlayer } from '../logic';
 import { ROLE_IMAGES } from '../roles';
+import cardBack from '../../../assets/werwolf/card-back.png';
 
 type Props = {
   players: WerwolfPlayer[];
@@ -101,7 +102,7 @@ export default function RoleRevealScreen({ players, onDone }: Props) {
             className="relative block w-full aspect-square text-center"
           >
             <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
-              <img src="/werwolfBilder/rückseite.png" alt="Back" className="absolute inset-0 h-full w-full object-contain" />
+              <img src={cardBack} alt="Back" className="absolute inset-0 h-full w-full object-contain" />
               <div className="relative z-10 flex flex-col items-center justify-center">
                 <div className="text-4xl font-black text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">{player.name}</div>
                 <div className="mt-4 rounded-full bg-black/50 px-4 py-2 text-sm text-white backdrop-blur-sm">{w.tapToReveal}</div>
