@@ -5,6 +5,7 @@ import imposter from './imposter.webp';
 import truthdare from './truthdare.webp';
 import wouldyou from './wouldyou.webp';
 import charades from './charades.webp';
+import werwolf from './werwolf.png';
 
 export const brandLogo = logo;
 
@@ -13,4 +14,5 @@ export const gameImages: Record<string, string> = {
   truthdare,
   wouldyou,
   charades,
+  werwolf,
 };

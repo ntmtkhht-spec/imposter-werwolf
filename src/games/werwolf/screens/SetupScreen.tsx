@@ -7,6 +7,8 @@ import Stepper from '../../../components/Stepper';
 import Toggle from '../../../components/Toggle';
 import PlayerNamesScreen from './PlayerNamesScreen';
 import setupHero from '../../../assets/hero/werwolfgrafik.png';
+import shareDeviceImg from '../../../assets/werwolf/share-device.png';
+import qrJoinImg from '../../../assets/werwolf/qr-join.png';
 import {
   DEFAULT_SETTINGS,
   LIMITS,
@@ -56,9 +58,9 @@ export default function SetupScreen({ onStart, onExit }: Props) {
                   patch({ multiplayer: false });
                   setView('setup');
                 }}
-                className="flex flex-col items-center justify-start gap-3 rounded-3xl bg-white p-6 shadow-sm transition active:scale-[0.98] ring-1 ring-slate-200 text-center"
+                className="flex flex-col items-center justify-start gap-3 rounded-3xl bg-white p-4 shadow-sm transition active:scale-[0.98] ring-1 ring-slate-200 text-center"
               >
-                <span className="text-5xl">📱</span>
+                <img src={shareDeviceImg} alt="" className="aspect-square w-full rounded-2xl object-cover" />
                 <div>
                   <span className="block font-bold text-slate-800 leading-tight">Ein Gerät<br/>teilen</span>
                   <span className="mt-2 block text-xs text-slate-500 leading-tight">
@@ -72,9 +74,9 @@ export default function SetupScreen({ onStart, onExit }: Props) {
                   patch({ multiplayer: true });
                   setView('setup');
                 }}
-                className="flex flex-col items-center justify-start gap-3 rounded-3xl bg-white p-6 shadow-sm transition active:scale-[0.98] ring-1 ring-slate-200 text-center"
+                className="flex flex-col items-center justify-start gap-3 rounded-3xl bg-white p-4 shadow-sm transition active:scale-[0.98] ring-1 ring-slate-200 text-center"
               >
-                <span className="text-5xl">🌐</span>
+                <img src={qrJoinImg} alt="" className="aspect-square w-full rounded-2xl object-cover" />
                 <div>
                   <span className="block font-bold text-slate-800 leading-tight">Jeder sein<br/>Gerät</span>
                   <span className="mt-2 block text-xs text-slate-500 leading-tight">
