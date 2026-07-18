@@ -56,8 +56,8 @@ export default function RoleRevealScreen({ players, onDone }: Props) {
     if (dragStartY.current === null) return;
     dragStartY.current = null;
     setDragging(false);
-    if (dragYRef.current <= -SWIPE_THRESHOLD && !revealed) {
-      setRevealed(true);
+    if (dragYRef.current <= -SWIPE_THRESHOLD) {
+      setRevealed((r) => !r); // swipe up toggles — swipe again flips back
       suppressClick.current = true;
     }
     dragYRef.current = 0;
