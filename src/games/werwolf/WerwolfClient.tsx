@@ -109,13 +109,15 @@ export default function WerwolfClient() {
             onClick={() => setRevealed(!revealed)}
             style={{
               transform: `rotateY(${revealed ? 180 : 0}deg)`,
+              WebkitTransform: `rotateY(${revealed ? 180 : 0}deg)`,
               transition: 'transform 400ms ease-out',
               transformStyle: 'preserve-3d',
+              WebkitTransformStyle: 'preserve-3d',
               willChange: 'transform',
             }}
             className="relative block w-full aspect-square text-center"
           >
-            <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl [backface-visibility:hidden]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl [-webkit-backface-visibility:hidden] [backface-visibility:hidden]">
               <img src="/werwolfBilder/rückseite.png" alt="Back" className="absolute inset-0 h-full w-full object-contain" />
               <div className="relative z-10 flex flex-col items-center justify-center">
                 <div className="text-4xl font-black text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">{name}</div>
@@ -123,7 +125,7 @@ export default function WerwolfClient() {
               </div>
             </div>
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl [backface-visibility:hidden] [transform:rotateY(180deg)]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [-webkit-transform:rotateY(180deg)] [transform:rotateY(180deg)]">
               <img src={ROLE_IMAGES[role as keyof typeof ROLE_IMAGES]} alt={role} className="absolute inset-0 h-full w-full object-contain" />
               <div className="relative z-10 mb-auto mt-6 flex flex-col items-center">
                 <div className="rounded-full bg-black/50 px-4 py-2 text-sm text-white backdrop-blur-sm">{w.reveal.tapToHide}</div>

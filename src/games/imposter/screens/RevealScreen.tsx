@@ -99,15 +99,17 @@ export default function RevealScreen({ round, onDone }: Props) {
           onPointerCancel={handlePointerUp}
           style={{
             transform: `translateY(${dragY}px) rotateY(${revealed ? 180 : 0}deg)`,
+            WebkitTransform: `translateY(${dragY}px) rotateY(${revealed ? 180 : 0}deg)`,
             transition: dragging ? 'none' : 'transform 500ms cubic-bezier(0.4,0.1,0.2,1)',
             touchAction: 'none',
             transformStyle: 'preserve-3d',
+            WebkitTransformStyle: 'preserve-3d',
           }}
           className="absolute inset-0 block h-full w-full text-center"
         >
           {/* Front face: avatar + name, hidden once flipped past 90deg */}
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-3xl bg-brand p-6 text-white [backface-visibility:hidden]"
+            className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-3xl bg-brand p-6 text-white [-webkit-backface-visibility:hidden] [backface-visibility:hidden]"
           >
             <Avatar src={role.avatar} seed={role.index} size={280} className="mx-auto mb-6 max-w-full" />
             <div className="text-3xl font-extrabold">{role.name}</div>
@@ -116,7 +118,7 @@ export default function RevealScreen({ round, onDone }: Props) {
 
           {/* Back face: role/word, pre-rotated so it faces forward once flipped */}
           <div
-            className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-3xl bg-white p-6 ring-2 ring-brand [backface-visibility:hidden] [transform:rotateY(180deg)]"
+            className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-3xl bg-white p-6 ring-2 ring-brand [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [-webkit-transform:rotateY(180deg)] [transform:rotateY(180deg)]"
           >
             <span
               className={`mb-4 flex h-14 w-14 items-center justify-center rounded-full text-2xl text-white ${
