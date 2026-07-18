@@ -166,26 +166,32 @@ export default function NightScreen({
                 <PlayerPicker players={living} selected={poisonTarget} onPick={setPoisonTarget} />
               </>
             ) : (
-              <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
                 {victim !== null && !witchHealUsed && (
                   <button
                     onClick={() => setHealNow((h) => !h)}
-                    className={`btn w-full gap-2 ${healNow ? 'bg-green-600 text-white' : 'bg-slate-100 text-ink'}`}
+                    className={`flex flex-1 flex-col items-center gap-2 rounded-2xl p-4 font-bold transition active:scale-[0.98] ${
+                      healNow ? 'bg-green-600 text-white ring-2 ring-green-300' : 'bg-slate-100 text-ink'
+                    }`}
                   >
-                    <img src={heiltrankImg} alt="" className="h-7 w-7 object-contain" />
-                    {healNow ? w.healed : w.heal}
+                    <img src={heiltrankImg} alt="" className="h-20 w-20 object-contain" />
+                    <span>{healNow ? w.healed : w.heal}</span>
                   </button>
                 )}
                 {!witchPoisonUsed && (
                   <button
                     onClick={() => setPoisonPicking(true)}
-                    className={`btn w-full gap-2 ${poisonTarget !== null ? 'bg-brand text-white' : 'bg-slate-100 text-ink'}`}
+                    className={`flex flex-1 flex-col items-center gap-2 rounded-2xl p-4 font-bold transition active:scale-[0.98] ${
+                      poisonTarget !== null ? 'bg-brand text-white ring-2 ring-red-300' : 'bg-slate-100 text-ink'
+                    }`}
                   >
-                    <img src={giftImg} alt="" className="h-7 w-7 object-contain" />
-                    {w.poison}
-                    {poisonTarget !== null
-                      ? `: ${players.find((p) => p.index === poisonTarget)?.name}`
-                      : ''}
+                    <img src={giftImg} alt="" className="h-20 w-20 object-contain" />
+                    <span>{w.poison}</span>
+                    {poisonTarget !== null && (
+                      <span className="text-xs font-medium opacity-90">
+                        {players.find((p) => p.index === poisonTarget)?.name}
+                      </span>
+                    )}
                   </button>
                 )}
               </div>
@@ -196,14 +202,17 @@ export default function NightScreen({
 
       <div className="relative z-10 shrink-0 pt-2">
         {step === 'witch' && poisonPicking ? (
-          <button onClick={() => setPoisonPicking(false)} className="btn-primary w-full">
+          <button
+            onClick={() => setPoisonPicking(false)}
+            className="btn-brand w-full text-lg shadow-lg shadow-black/40"
+          >
             {t.common.done}
           </button>
         ) : (
           <button
             onClick={next}
             disabled={step === 'werewolf' && victim === null}
-            className="btn-primary w-full"
+            className="btn-brand w-full text-lg shadow-lg shadow-black/40"
           >
             {stepIdx >= steps.length - 1 ? w.allSleep : w.next}
           </button>
