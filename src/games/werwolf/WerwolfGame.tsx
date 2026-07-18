@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useI18n } from '../../i18n';
 import {
@@ -16,8 +16,10 @@ import NightScreen, { type NightResult } from './screens/NightScreen';
 import DayScreen from './screens/DayScreen';
 import HunterScreen from './screens/HunterScreen';
 import ResultScreen from './screens/ResultScreen';
+import LobbyScreen from './screens/LobbyScreen';
+import type { HostManager } from './multiplayer';
 
-type Phase = 'setup' | 'reveal' | 'night' | 'day' | 'hunter' | 'result';
+type Phase = 'setup' | 'lobby' | 'reveal' | 'night' | 'day' | 'hunter' | 'result';
 
 export default function WerwolfGame() {
   const { t } = useI18n();
@@ -34,6 +36,25 @@ export default function WerwolfGame() {
   const [pendingHunter, setPendingHunter] = useState<number | null>(null);
   const [resolvedHunters, setResolvedHunters] = useState<number[]>([]);
   const [afterHunter, setAfterHunter] = useState<'day' | 'night'>('day');
+  const [hostManager, setHostManager] = useState<HostManager | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (hostManager) {
+        hostManager.sendToAll({ type: 'GAME_OVER' });
+        hostManager.destroy();
+      }
+    };
+  }, [hostManager]);
+
+  const handleExit = () => {
+    if (hostManager) {
+      hostManager.sendToAll({ type: 'GAME_OVER' });
+      hostManager.destroy();
+      setHostManager(null);
+    }
+    navigate('/');
+  };
 
   const build = (s: WerwolfSettings): WerwolfPlayer[] => {
     const names = Array.from({ length: s.playerCount }, (_, i) => {
@@ -58,15 +79,67 @@ export default function WerwolfGame() {
   const start = (s: WerwolfSettings) => {
     const norm = normalizeSettings(s);
     setSettings(norm);
-    startFresh(norm, 'reveal');
+    if (norm.multiplayer) {
+      setPhase('lobby');
+    } else {
+      startFresh(norm, 'reveal');
+    }
+  };
+
+  const startMultiplayer = (manager: HostManager) => {
+    setHostManager(manager);
+    const names = manager.players.map(p => p.name);
+    const s = { ...settings!, playerCount: names.length, playerNames: names };
+    const norm = normalizeSettings(s);
+    setSettings(norm);
+
+    const generatedPlayers = build(norm);
+    
+    // Broadcast roles to clients
+    generatedPlayers.forEach(p => {
+      const joinedPlayer = manager.players.find(jp => jp.name === p.name);
+      if (joinedPlayer) {
+        manager.sendTo(joinedPlayer.id, { type: 'ROLE', role: p.role });
+      }
+    });
+
+    setPlayers(generatedPlayers);
+    setRound(1);
+    setLastDeaths([]);
+    setHealUsed(false);
+    setPoisonUsed(false);
+    setWinner(null);
+    setPendingHunter(null);
+    setResolvedHunters([]);
+    setPhase('night'); // skip reveal in multiplayer
   };
 
   const replay = () => {
-    if (settings) startFresh(settings, 'reveal');
+    if (settings) {
+      if (settings.multiplayer && hostManager) {
+        // re-broadcast roles
+        const generatedPlayers = build(settings);
+        generatedPlayers.forEach(p => {
+          const joinedPlayer = hostManager.players.find(jp => jp.name === p.name);
+          if (joinedPlayer) {
+            hostManager.sendTo(joinedPlayer.id, { type: 'ROLE', role: p.role });
+          }
+        });
+        setPlayers(generatedPlayers);
+        setRound(1);
+        setLastDeaths([]);
+        setHealUsed(false);
+        setPoisonUsed(false);
+        setWinner(null);
+        setPendingHunter(null);
+        setResolvedHunters([]);
+        setPhase('night');
+      } else {
+        startFresh(settings, 'reveal');
+      }
+    }
   };
 
-  // After deaths are applied, prompt an unresolved dead hunter (if any living
-  // targets remain), otherwise check the win condition and continue.
   const resolvePostDeaths = (
     playersNow: WerwolfPlayer[],
     resolved: number[],
@@ -127,7 +200,11 @@ export default function WerwolfGame() {
   };
 
   if (phase === 'setup' || !settings) {
-    return <SetupScreen onStart={start} onExit={() => navigate('/')} />;
+    return <SetupScreen onStart={start} onExit={handleExit} />;
+  }
+
+  if (phase === 'lobby') {
+    return <LobbyScreen settings={settings} onStart={startMultiplayer} onExit={handleExit} />;
   }
 
   if (phase === 'reveal') {
@@ -169,7 +246,7 @@ export default function WerwolfGame() {
       winner={winner}
       onReplay={replay}
       onNewGame={() => setPhase('setup')}
-      onExit={() => navigate('/')}
+      onExit={handleExit}
     />
   );
 }

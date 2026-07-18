@@ -6,6 +6,7 @@ import LangToggle from '../../../components/LangToggle';
 import Stepper from '../../../components/Stepper';
 import Toggle from '../../../components/Toggle';
 import PlayerNamesScreen from './PlayerNamesScreen';
+import setupHero from '../../../assets/hero/werwolfgrafik.png';
 import {
   DEFAULT_SETTINGS,
   LIMITS,
@@ -26,12 +27,67 @@ export default function SetupScreen({ onStart, onExit }: Props) {
     'werwolf.settings',
     DEFAULT_SETTINGS,
   );
-  const [view, setView] = useState<'setup' | 'names'>('setup');
+  const [view, setView] = useState<'mode' | 'setup' | 'names'>('mode');
   const s = normalizeSettings({ ...DEFAULT_SETTINGS, ...settings });
   const patch = (p: Partial<WerwolfSettings>) =>
     setSettings(normalizeSettings({ ...s, ...p }));
 
   const customNameCount = s.playerNames.filter((n) => n.trim().length > 0).length;
+
+  if (view === 'mode') {
+    return (
+      <>
+        <TopBar
+          title={w.name}
+          left={
+            <button onClick={onExit} className="text-2xl leading-none" aria-label={t.common.back}>
+              ←
+            </button>
+          }
+        />
+        <div className="flex-1 flex flex-col justify-center px-5">
+          <div className="w-full max-w-md mx-auto">
+            <h2 className="mb-8 text-center text-2xl font-bold text-slate-800">
+              Wie möchtet ihr spielen?
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => {
+                  patch({ multiplayer: false });
+                  setView('setup');
+                }}
+                className="flex flex-col items-center justify-start gap-3 rounded-3xl bg-white p-6 shadow-sm transition active:scale-[0.98] ring-1 ring-slate-200 text-center"
+              >
+                <span className="text-5xl">📱</span>
+                <div>
+                  <span className="block font-bold text-slate-800 leading-tight">Ein Gerät<br/>teilen</span>
+                  <span className="mt-2 block text-xs text-slate-500 leading-tight">
+                    Das Handy wird weitergegeben
+                  </span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => {
+                  patch({ multiplayer: true });
+                  setView('setup');
+                }}
+                className="flex flex-col items-center justify-start gap-3 rounded-3xl bg-white p-6 shadow-sm transition active:scale-[0.98] ring-1 ring-slate-200 text-center"
+              >
+                <span className="text-5xl">🌐</span>
+                <div>
+                  <span className="block font-bold text-slate-800 leading-tight">Jeder sein<br/>Gerät</span>
+                  <span className="mt-2 block text-xs text-slate-500 leading-tight">
+                    Über QR-Code beitreten
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   if (view === 'names') {
     return (
@@ -49,7 +105,7 @@ export default function SetupScreen({ onStart, onExit }: Props) {
       <TopBar
         title={w.name}
         left={
-          <button onClick={onExit} className="text-2xl leading-none" aria-label={t.common.back}>
+          <button onClick={() => setView('mode')} className="text-2xl leading-none" aria-label={t.common.back}>
             ←
           </button>
         }
@@ -57,6 +113,11 @@ export default function SetupScreen({ onStart, onExit }: Props) {
       />
 
       <div className="flex-1 overflow-y-auto px-5 pb-4">
+        <img
+          src={setupHero}
+          alt=""
+          className="mx-auto mb-4 w-full max-w-sm rounded-2xl"
+        />
         <p className="mb-4 text-sm text-slate-500">{w.tagline}</p>
 
         <section className="rounded-2xl bg-slate-50 px-4 divide-y divide-slate-200">

@@ -6,6 +6,7 @@ export type WerwolfSettings = {
   hunter: boolean;
   timerEnabled: boolean;
   discussionMin: number;
+  multiplayer: boolean;
   /** Custom player names by slot; empty = default "Player N". */
   playerNames: string[];
 };
@@ -23,6 +24,7 @@ export const DEFAULT_SETTINGS: WerwolfSettings = {
   hunter: false,
   timerEnabled: true,
   discussionMin: 3,
+  multiplayer: false,
   playerNames: [],
 };
 

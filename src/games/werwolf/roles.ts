@@ -18,3 +18,11 @@ export const ROLES: Record<RoleId, RoleMeta> = {
 export function isWerewolf(role: RoleId): boolean {
   return ROLES[role].team === 'werewolf';
 }
+
+export const ROLE_IMAGES: Record<string, string> = {
+  werewolf: '/werwolfBilder/werwolf.png',
+  villager: '/werwolfBilder/Dorfbewohner.png',
+  seer: '/werwolfBilder/Seherin.png',
+  witch: '/werwolfBilder/Hexe.png',
+  hunter: '/werwolfBilder/jäger.png',
+};

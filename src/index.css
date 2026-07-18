@@ -39,3 +39,20 @@
     @apply btn bg-slate-100 text-ink;
   }
 }
+
+@layer utilities {
+  @keyframes swipeInRight {
+    0% { transform: translateX(100vw) rotate(8deg); opacity: 0; }
+    100% { transform: translateX(0) rotate(0deg); opacity: 1; }
+  }
+  @keyframes swipeOutLeft {
+    0% { transform: translateX(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateX(-100vw) rotate(-8deg); opacity: 0; }
+  }
+  .animate-swipe-in {
+    animation: swipeInRight 350ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  .animate-swipe-out {
+    animation: swipeOutLeft 250ms cubic-bezier(0.4, 0, 1, 1) forwards;
+  }
+}
