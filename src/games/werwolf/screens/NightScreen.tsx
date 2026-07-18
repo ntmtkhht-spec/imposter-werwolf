@@ -212,7 +212,7 @@ export default function NightScreen({
         )}
       </div>
 
-      <div className="shrink-0 pt-2">
+      <div className="relative z-10 shrink-0 pt-2">
         {step === 'witch' && poisonPicking ? (
           <button onClick={() => setPoisonPicking(false)} className="btn-primary w-full">
             {t.common.done}
