@@ -74,26 +74,26 @@ export default function NightScreen({
     seerTarget !== null ? players.find((p) => p.index === seerTarget) : null;
 
   return (
-    <div className="relative flex flex-1 flex-col overflow-hidden bg-gradient-to-b from-[#0b1026] via-[#141b3d] to-[#0b1026] px-5 pb-6 pt-4 text-slate-100">
-      <div aria-hidden className="night-stars pointer-events-none absolute inset-0" />
+    <div className="relative flex flex-1 flex-col overflow-hidden bg-[#0b1026] px-5 pb-6 pt-4 text-slate-100">
+      <img
+        src={nightScene}
+        aria-hidden
+        alt=""
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      />
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-16 -right-10 h-52 w-52 rounded-full bg-amber-200/10 blur-3xl"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b1026]/75 via-[#0b1026]/60 to-[#0b1026]/90"
       />
 
-      <p className="relative z-10 mb-1 text-center text-sm font-medium text-indigo-200/70">
+      <p className="relative z-10 mb-1 text-center text-sm font-medium text-indigo-100/80">
         {w.title} {dayNumber + 1}
       </p>
 
       <div className="relative z-10 flex flex-1 flex-col overflow-y-auto py-4">
         {step === 'intro' && (
           <div className="night-fade m-auto text-center">
-            <img
-              src={nightScene}
-              alt=""
-              className="mx-auto mb-6 w-64 max-w-full rounded-2xl shadow-xl shadow-black/40 ring-1 ring-white/10"
-            />
-            <p className="mx-auto max-w-xs text-2xl font-bold tracking-tight text-white">
+            <p className="mx-auto max-w-xs text-2xl font-bold tracking-tight text-white [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">
               {w.allClose}
             </p>
           </div>
