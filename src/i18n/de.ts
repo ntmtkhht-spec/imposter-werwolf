@@ -141,7 +141,7 @@ export const de = {
     result: {
       title: 'Spielende',
       villageWins: 'Das Dorf gewinnt! 🎉',
-      werewolvesWin: 'Die Werwölfe gewinnen! 🐺',
+      werewolvesWin: 'Die Werwölfe gewinnen!',
       rolesTitle: 'Alle Rollen',
       alive: 'lebt',
       dead: 'tot',

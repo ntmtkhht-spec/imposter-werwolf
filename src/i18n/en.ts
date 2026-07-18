@@ -143,7 +143,7 @@ export const en: Dict = {
     result: {
       title: 'Game over',
       villageWins: 'The village wins! 🎉',
-      werewolvesWin: 'The werewolves win! 🐺',
+      werewolvesWin: 'The werewolves win!',
       rolesTitle: 'All roles',
       alive: 'alive',
       dead: 'dead',
