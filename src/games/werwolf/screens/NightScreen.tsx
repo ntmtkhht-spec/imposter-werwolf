@@ -70,16 +70,24 @@ export default function NightScreen({
     seerTarget !== null ? players.find((p) => p.index === seerTarget) : null;
 
   return (
-    <div className="flex flex-1 flex-col px-5 pb-6 pt-4">
-      <p className="mb-1 text-center text-sm font-medium text-slate-400">
-        🌙 {w.title} {dayNumber + 1}
+    <div className="relative flex flex-1 flex-col overflow-hidden bg-gradient-to-b from-[#0b1026] via-[#141b3d] to-[#0b1026] px-5 pb-6 pt-4 text-slate-100">
+      <div aria-hidden className="night-stars pointer-events-none absolute inset-0" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-16 -right-10 h-52 w-52 rounded-full bg-amber-200/10 blur-3xl"
+      />
+
+      <p className="relative z-10 mb-1 text-center text-sm font-medium text-indigo-200/70">
+        {w.title} {dayNumber + 1}
       </p>
 
-      <div className="flex flex-1 flex-col overflow-y-auto py-4">
+      <div className="relative z-10 flex flex-1 flex-col overflow-y-auto py-4">
         {step === 'intro' && (
-          <div className="m-auto text-center">
-            <div className="mb-6 text-7xl">🌙</div>
-            <p className="mx-auto max-w-xs text-lg font-semibold">{w.allClose}</p>
+          <div className="night-fade m-auto text-center">
+            <div className="night-moon mx-auto mb-8" />
+            <p className="mx-auto max-w-xs text-2xl font-bold tracking-tight text-white">
+              {w.allClose}
+            </p>
           </div>
         )}
 
@@ -89,7 +97,7 @@ export default function NightScreen({
               <div className="mb-3 text-6xl">🐺</div>
               <p className="mx-auto max-w-xs font-semibold">{w.werewolfWake}</p>
             </div>
-            <h3 className="mb-2 px-1 text-sm font-semibold text-slate-500">{w.chooseVictim}</h3>
+            <h3 className="mb-2 px-1 text-sm font-semibold text-slate-300">{w.chooseVictim}</h3>
             <PlayerPicker players={victimCandidates} selected={victim} onPick={setVictim} />
           </div>
         )}
@@ -124,7 +132,7 @@ export default function NightScreen({
               </button>
             ) : (
               <>
-                <h3 className="mb-2 px-1 text-sm font-semibold text-slate-500">
+                <h3 className="mb-2 px-1 text-sm font-semibold text-slate-300">
                   {w.chooseInspect}
                 </h3>
                 <PlayerPicker
@@ -162,7 +170,7 @@ export default function NightScreen({
 
             {poisonPicking ? (
               <>
-                <h3 className="mb-2 px-1 text-sm font-semibold text-slate-500">
+                <h3 className="mb-2 px-1 text-sm font-semibold text-slate-300">
                   {w.choosePoison}
                 </h3>
                 <PlayerPicker players={living} selected={poisonTarget} onPick={setPoisonTarget} />

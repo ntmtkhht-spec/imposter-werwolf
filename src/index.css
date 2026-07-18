@@ -41,6 +41,45 @@
 }
 
 @layer utilities {
+  /* --- Werwolf night atmosphere --- */
+  .night-stars {
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, #ffffff, transparent),
+      radial-gradient(1px 1px at 70% 18%, #ffffff, transparent),
+      radial-gradient(1px 1px at 40% 68%, #cbd5ff, transparent),
+      radial-gradient(1.5px 1.5px at 85% 58%, #ffffff, transparent),
+      radial-gradient(1px 1px at 55% 42%, #ffffff, transparent),
+      radial-gradient(1px 1px at 12% 78%, #cbd5ff, transparent),
+      radial-gradient(1.5px 1.5px at 92% 84%, #ffffff, transparent),
+      radial-gradient(1px 1px at 32% 12%, #ffffff, transparent);
+    animation: twinkle 5s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+  }
+  .night-moon {
+    width: 92px;
+    height: 92px;
+    border-radius: 9999px;
+    background: radial-gradient(circle at 35% 35%, #ffe9b0, #f4c04f 60%, #e0a634);
+    box-shadow:
+      0 0 40px 8px rgba(244, 192, 79, 0.45),
+      inset -14px -10px 0 0 #0f1533;
+    animation: moonGlow 4s ease-in-out infinite;
+  }
+  @keyframes moonGlow {
+    0%, 100% { box-shadow: 0 0 40px 8px rgba(244, 192, 79, 0.4), inset -14px -10px 0 0 #0f1533; }
+    50% { box-shadow: 0 0 64px 14px rgba(244, 192, 79, 0.62), inset -14px -10px 0 0 #0f1533; }
+  }
+  .night-fade {
+    animation: nightFade 700ms ease-out both;
+  }
+  @keyframes nightFade {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
   @keyframes swipeInRight {
     0% { transform: translateX(100vw) rotate(8deg); opacity: 0; }
     100% { transform: translateX(0) rotate(0deg); opacity: 1; }
