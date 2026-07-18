@@ -4,6 +4,7 @@ import RoleIcon from '../RoleIcon';
 import PlayerPicker from './PlayerPicker';
 import { livingPlayers, type WerwolfPlayer } from '../logic';
 import { isWerewolf } from '../roles';
+import werwolfLogo from '../../../assets/werwolf/logo.png';
 
 export type NightResult = {
   deaths: number[];
@@ -94,7 +95,7 @@ export default function NightScreen({
         {step === 'werewolf' && (
           <div>
             <div className="mb-4 text-center">
-              <div className="mb-3 text-6xl">🐺</div>
+              <img src={werwolfLogo} alt="" className="mx-auto mb-3 h-24 w-24 object-contain" />
               <p className="mx-auto max-w-xs font-semibold">{w.werewolfWake}</p>
             </div>
             <h3 className="mb-2 px-1 text-sm font-semibold text-slate-300">{w.chooseVictim}</h3>

@@ -1,6 +1,7 @@
 import { useI18n } from '../../../i18n';
 import Avatar from '../../../components/Avatar';
 import RoleIcon from '../RoleIcon';
+import werwolfLogo from '../../../assets/werwolf/logo.png';
 import type { Winner, WerwolfPlayer } from '../logic';
 
 type Props = {
@@ -22,7 +23,11 @@ export default function ResultScreen({ players, winner, onReplay, onNewGame, onE
           winner === 'village' ? 'bg-green-600' : 'bg-ink'
         }`}
       >
-        <div className="mb-2 text-5xl">{winner === 'village' ? '🎉' : '🐺'}</div>
+        {winner === 'village' ? (
+          <div className="mb-2 text-5xl">🎉</div>
+        ) : (
+          <img src={werwolfLogo} alt="" className="mx-auto mb-2 h-20 w-20 object-contain" />
+        )}
         <h1 className="text-2xl font-black">
           {winner === 'village' ? r.villageWins : r.werewolvesWin}
         </h1>
