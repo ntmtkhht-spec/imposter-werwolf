@@ -105,7 +105,7 @@ export default function WerwolfClient() {
   if (state === 'role' && role) {
     return (
       <div className="flex h-full flex-col bg-slate-900 px-6 py-12 text-white">
-        <div className="flex-1">
+        <div className="flex flex-1 flex-col justify-center">
           <button
             onClick={() => setRevealed(!revealed)}
             style={{
@@ -122,17 +122,16 @@ export default function WerwolfClient() {
               <img src={cardBack} alt="Back" className="absolute inset-0 h-full w-full object-contain" />
               <div className="relative z-10 flex flex-col items-center justify-center">
                 <div className="text-4xl font-black text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">{name}</div>
-                <div className="mt-4 rounded-full bg-black/50 px-4 py-2 text-sm text-white backdrop-blur-sm">{w.reveal.tapToReveal}</div>
               </div>
             </div>
 
             <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [-webkit-transform:rotateY(180deg)] [transform:rotateY(180deg)]">
               <img src={ROLE_IMAGES[role as keyof typeof ROLE_IMAGES]} alt={role} className="absolute inset-0 h-full w-full object-contain" />
-              <div className="relative z-10 mb-auto mt-6 flex flex-col items-center">
-                <div className="rounded-full bg-black/50 px-4 py-2 text-sm text-white backdrop-blur-sm">{w.reveal.tapToHide}</div>
-              </div>
             </div>
           </button>
+          <p className="mt-4 text-center text-xs font-medium text-white/40">
+            {revealed ? w.reveal.tapToHide : w.reveal.tapToReveal}
+          </p>
         </div>
         <div className="mt-8 text-center text-white/50">
           <p>Du bleibst in dieser Rolle für den Rest des Spiels.</p>

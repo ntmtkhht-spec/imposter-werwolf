@@ -79,7 +79,7 @@ export default function RoleRevealScreen({ players, onDone }: Props) {
         {w.player} {current + 1} / {players.length}
       </p>
 
-      <div className="flex flex-1 items-center justify-center [perspective:1200px]">
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 [perspective:1200px]">
         <div
           key={current}
           className={`w-full max-w-sm ${isSwipingOut ? 'animate-swipe-out' : 'animate-swipe-in'}`}
@@ -105,18 +105,17 @@ export default function RoleRevealScreen({ players, onDone }: Props) {
               <img src={cardBack} alt="Back" className="absolute inset-0 h-full w-full object-contain" />
               <div className="relative z-10 flex flex-col items-center justify-center">
                 <div className="text-4xl font-black text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">{player.name}</div>
-                <div className="mt-4 rounded-full bg-black/50 px-4 py-2 text-sm text-white backdrop-blur-sm">{w.tapToReveal}</div>
               </div>
             </div>
 
             <div className="absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-xl [-webkit-backface-visibility:hidden] [backface-visibility:hidden] [-webkit-transform:rotateY(180deg)] [transform:rotateY(180deg)]">
               <img src={ROLE_IMAGES[player.role]} alt={player.role} className="absolute inset-0 h-full w-full object-contain" />
-              <div className="relative z-10 mb-auto mt-6 flex flex-col items-center">
-                <div className="rounded-full bg-black/50 px-4 py-2 text-sm text-white backdrop-blur-sm">{w.tapToHide}</div>
-              </div>
             </div>
           </button>
         </div>
+        <p className="text-xs font-medium text-slate-400">
+          {revealed ? w.tapToHide : w.tapToReveal}
+        </p>
       </div>
 
       <div className="mt-5 shrink-0 text-center">
