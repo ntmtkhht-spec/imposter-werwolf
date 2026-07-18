@@ -10,8 +10,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'],
       manifest: {
-        name: 'Party Games',
-        short_name: 'Party',
+        name: 'Partybande',
+        short_name: 'Partybande',
         description: 'Party-Spiele fürs Handy — Imposter und mehr',
         theme_color: '#ef1b3b',
         background_color: '#ffffff',

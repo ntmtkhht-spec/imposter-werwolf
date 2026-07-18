@@ -11,7 +11,7 @@ export const en: Dict = {
     off: 'Off',
   },
   hub: {
-    title: 'Party Games',
+    title: 'Partybande',
     subtitle: 'Games for your next hangout — right in the browser.',
     play: 'Play',
     soon: 'Soon',

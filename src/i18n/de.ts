@@ -9,7 +9,7 @@ export const de = {
     off: 'Aus',
   },
   hub: {
-    title: 'Party Games',
+    title: 'Partybande',
     subtitle: 'Spiele für deine nächste Runde — direkt im Browser.',
     play: 'Spielen',
     soon: 'Bald',
