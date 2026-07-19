@@ -51,19 +51,26 @@ export default function DayScreen({
   }, [phase, narratorOn]);
 
   return (
-    <div className="flex flex-1 flex-col px-5 pb-6 pt-4">
-      <p className="mb-3 text-center text-sm font-medium text-slate-400">
+    <div className="relative flex flex-1 flex-col overflow-hidden bg-amber-50 px-5 pb-6 pt-4 text-slate-800">
+      <img
+        src={dayScene}
+        aria-hidden
+        alt=""
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-amber-50/80 via-amber-50/70 to-amber-50/90"
+      />
+
+      <div className="relative z-10 flex flex-1 flex-col">
+      <p className="mb-3 text-center text-sm font-semibold text-amber-900/80">
         ☀️ {w.day} {dayNumber}
       </p>
 
       {phase === 'announce' && (
         <>
           <div className="flex flex-1 flex-col items-center justify-center text-center">
-            <img
-              src={dayScene}
-              alt=""
-              className="mb-6 w-56 max-w-full rounded-2xl shadow-lg shadow-amber-900/10 ring-1 ring-amber-900/10"
-            />
             {deadPlayers.length > 0 ? (
               <>
                 <p className="mb-6 font-semibold text-slate-500">{w.died}</p>
@@ -143,6 +150,7 @@ export default function DayScreen({
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }
