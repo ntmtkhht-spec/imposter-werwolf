@@ -16,6 +16,7 @@ import {
   normalizeSettings,
   type WerwolfSettings,
 } from '../config';
+import { unlockNarrator } from '../narrator';
 
 type Props = {
   onStart: (s: WerwolfSettings) => void;
@@ -145,6 +146,11 @@ export default function SetupScreen({ onStart, onExit }: Props) {
             onChange={(v) => patch({ hunter: v })}
           />
           <Toggle
+            label="🔊 Erzähler-Stimme"
+            checked={s.narrator}
+            onChange={(v) => patch({ narrator: v })}
+          />
+          <Toggle
             label={w.setup.timer}
             checked={s.timerEnabled}
             onChange={(v) => patch({ timerEnabled: v })}
@@ -181,7 +187,13 @@ export default function SetupScreen({ onStart, onExit }: Props) {
       </div>
 
       <div className="shrink-0 px-5 pb-5 pt-2">
-        <button onClick={() => onStart(s)} className="btn-brand w-full">
+        <button
+          onClick={() => {
+            unlockNarrator(); // user gesture unlocks mobile audio playback
+            onStart(s);
+          }}
+          className="btn-brand w-full"
+        >
           {t.common.start}
         </button>
       </div>

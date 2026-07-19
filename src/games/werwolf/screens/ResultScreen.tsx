@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import { useI18n } from '../../../i18n';
 import Avatar from '../../../components/Avatar';
 import RoleIcon from '../RoleIcon';
+import { narrate } from '../narrator';
 import werwolfLogo from '../../../assets/werwolf/logo.png';
 import type { Winner, WerwolfPlayer } from '../logic';
 
@@ -10,11 +12,23 @@ type Props = {
   onReplay: () => void;
   onNewGame: () => void;
   onExit: () => void;
+  narrator?: boolean;
 };
 
-export default function ResultScreen({ players, winner, onReplay, onNewGame, onExit }: Props) {
+export default function ResultScreen({
+  players,
+  winner,
+  onReplay,
+  onNewGame,
+  onExit,
+  narrator: narratorOn = false,
+}: Props) {
   const { t } = useI18n();
   const r = t.werwolf.result;
+
+  useEffect(() => {
+    narrate(winner === 'village' ? 'village-wins' : 'werewolves-win', narratorOn);
+  }, [winner, narratorOn]);
 
   return (
     <div className="flex flex-1 flex-col px-5 pb-6 pt-6">

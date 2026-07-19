@@ -1,9 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '../../../i18n';
 import RoleIcon from '../RoleIcon';
 import PlayerPicker from './PlayerPicker';
 import { livingPlayers, type WerwolfPlayer } from '../logic';
 import { isWerewolf } from '../roles';
+import type { HostManager, NightStepKind } from '../multiplayer';
+import { narrate } from '../narrator';
 import werwolfLogo from '../../../assets/werwolf/logo.png';
 import nightScene from '../../../assets/werwolf/night-scene.png';
 import heiltrankImg from '../../../assets/werwolf/heiltrank.png';
@@ -21,6 +23,10 @@ type Props = {
   witchHealUsed: boolean;
   witchPoisonUsed: boolean;
   onComplete: (result: NightResult) => void;
+  /** Multiplayer: send turns to role players' phones; host keeps parity control. */
+  hostManager?: HostManager | null;
+  peerByIndex?: Record<number, string>;
+  narrator?: boolean;
 };
 
 type Step = 'intro' | 'werewolf' | 'seer' | 'witch';
@@ -31,6 +37,9 @@ export default function NightScreen({
   witchHealUsed,
   witchPoisonUsed,
   onComplete,
+  hostManager = null,
+  peerByIndex = {},
+  narrator = false,
 }: Props) {
   const { t } = useI18n();
   const w = t.werwolf.night;
@@ -57,7 +66,106 @@ export default function NightScreen({
   const [poisonPicking, setPoisonPicking] = useState(false);
   const [poisonTarget, setPoisonTarget] = useState<number | null>(null);
 
+  /** Peers that play the given step's role and are still alive. */
+  const peersForStep = (s: Step): string[] => {
+    if (s === 'werewolf')
+      return living.filter((p) => isWerewolf(p.role)).map((p) => peerByIndex[p.index]).filter(Boolean);
+    if (s === 'seer')
+      return living.filter((p) => p.role === 'seer').map((p) => peerByIndex[p.index]).filter(Boolean);
+    if (s === 'witch')
+      return living.filter((p) => p.role === 'witch').map((p) => peerByIndex[p.index]).filter(Boolean);
+    return [];
+  };
+
+  const remoteActive = hostManager !== null && peersForStep(step).length > 0;
+
+  // Narrator: announce each step as it begins.
+  useEffect(() => {
+    if (step === 'intro') narrate('night-falls', narrator);
+    else if (step === 'werewolf') narrate('werewolves-wake', narrator);
+    else if (step === 'seer') narrate('seer-wake', narrator);
+    else if (step === 'witch') narrate('witch-wake', narrator);
+  }, [step, narrator]);
+
+  // Multiplayer: hand the current step to the role player's phone.
+  useEffect(() => {
+    if (!hostManager) return;
+    const peers = peersForStep(step);
+    if (peers.length === 0) return;
+    if (step === 'werewolf') {
+      const candidates = victimCandidates.map((p) => ({ index: p.index, name: p.name }));
+      peers.forEach((id) => hostManager.sendTo(id, { type: 'YOUR_TURN', step: 'werewolf', candidates }));
+    } else if (step === 'seer') {
+      const candidates = living
+        .filter((p) => p.role !== 'seer')
+        .map((p) => ({ index: p.index, name: p.name }));
+      peers.forEach((id) => hostManager.sendTo(id, { type: 'YOUR_TURN', step: 'seer', candidates }));
+    } else if (step === 'witch') {
+      const candidates = living.map((p) => ({ index: p.index, name: p.name }));
+      const victimName =
+        victim !== null ? players.find((p) => p.index === victim)?.name ?? null : null;
+      peers.forEach((id) =>
+        hostManager.sendTo(id, {
+          type: 'YOUR_TURN',
+          step: 'witch',
+          candidates,
+          witch: {
+            victimName,
+            canHeal: victim !== null && !witchHealUsed,
+            canPoison: !witchPoisonUsed,
+          },
+        }),
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, hostManager]);
+
+  // Multiplayer: accept actions from role players (first valid input wins).
+  useEffect(() => {
+    if (!hostManager) return;
+    hostManager.onAction = (_peerId, msg) => {
+      if (msg.step !== step) return; // stale or out-of-turn action
+      if (msg.step === 'werewolf' && victim === null && typeof msg.target === 'number') {
+        if (victimCandidates.some((p) => p.index === msg.target)) {
+          setVictim(msg.target);
+          endTurn('werewolf');
+        }
+      } else if (msg.step === 'seer' && seerTarget === null && typeof msg.target === 'number') {
+        const target = living.find((p) => p.index === msg.target && p.role !== 'seer');
+        if (target) {
+          setSeerTarget(target.index);
+          peersForStep('seer').forEach((id) =>
+            hostManager.sendTo(id, { type: 'SEER_RESULT', name: target.name, role: target.role }),
+          );
+        }
+      } else if (msg.step === 'witch' && !healNow && poisonTarget === null && msg.witch) {
+        if (msg.witch.heal && victim !== null && !witchHealUsed) setHealNow(true);
+        if (
+          msg.witch.poisonTarget !== null &&
+          !witchPoisonUsed &&
+          living.some((p) => p.index === msg.witch!.poisonTarget)
+        ) {
+          setPoisonTarget(msg.witch.poisonTarget);
+        }
+        endTurn('witch');
+      }
+    };
+    return () => {
+      hostManager.onAction = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hostManager, step, victim, seerTarget, healNow, poisonTarget, living]);
+
+  /** Tell the step's role phones that their turn is over. */
+  const endTurn = (s: Step) => {
+    if (!hostManager || s === 'intro') return;
+    peersForStep(s).forEach((id) =>
+      hostManager.sendTo(id, { type: 'TURN_ENDED', step: s as NightStepKind }),
+    );
+  };
+
   const finish = () => {
+    endTurn(step);
     const deaths: number[] = [];
     if (victim !== null && !healNow) deaths.push(victim);
     if (poisonTarget !== null) deaths.push(poisonTarget);
@@ -66,7 +174,10 @@ export default function NightScreen({
 
   const next = () => {
     if (stepIdx >= steps.length - 1) finish();
-    else setStepIdx(stepIdx + 1);
+    else {
+      endTurn(step);
+      setStepIdx(stepIdx + 1);
+    }
   };
 
   const seerTargetPlayer =
@@ -88,6 +199,11 @@ export default function NightScreen({
       <p className="relative z-10 mb-1 text-center text-sm font-medium text-indigo-100/80">
         {w.title} {dayNumber + 1}
       </p>
+      {remoteActive && step !== 'intro' && (
+        <p className="relative z-10 mb-1 text-center text-xs font-medium text-amber-200/90">
+          📱 {w.remoteHint}
+        </p>
+      )}
 
       <div className="relative z-10 flex flex-1 flex-col overflow-y-auto py-4">
         {step === 'intro' && (

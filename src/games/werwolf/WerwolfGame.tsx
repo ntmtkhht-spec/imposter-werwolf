@@ -37,6 +37,8 @@ export default function WerwolfGame() {
   const [resolvedHunters, setResolvedHunters] = useState<number[]>([]);
   const [afterHunter, setAfterHunter] = useState<'day' | 'night'>('day');
   const [hostManager, setHostManager] = useState<HostManager | null>(null);
+  /** Multiplayer: player index -> peer id, for targeted messages. */
+  const [peerByIndex, setPeerByIndex] = useState<Record<number, string>>({});
 
   useEffect(() => {
     return () => {
@@ -94,14 +96,18 @@ export default function WerwolfGame() {
     setSettings(norm);
 
     const generatedPlayers = build(norm);
-    
-    // Broadcast roles to clients
+
+    // Broadcast roles to clients and remember which peer plays which index.
+    const peers: Record<number, string> = {};
     generatedPlayers.forEach(p => {
       const joinedPlayer = manager.players.find(jp => jp.name === p.name);
       if (joinedPlayer) {
+        peers[p.index] = joinedPlayer.id;
         manager.sendTo(joinedPlayer.id, { type: 'ROLE', role: p.role });
       }
     });
+    setPeerByIndex(peers);
+    manager.sendToAll({ type: 'PHASE', phase: 'night', night: 1 });
 
     setPlayers(generatedPlayers);
     setRound(1);
@@ -119,12 +125,16 @@ export default function WerwolfGame() {
       if (settings.multiplayer && hostManager) {
         // re-broadcast roles
         const generatedPlayers = build(settings);
+        const peers: Record<number, string> = {};
         generatedPlayers.forEach(p => {
           const joinedPlayer = hostManager.players.find(jp => jp.name === p.name);
           if (joinedPlayer) {
+            peers[p.index] = joinedPlayer.id;
             hostManager.sendTo(joinedPlayer.id, { type: 'ROLE', role: p.role });
           }
         });
+        setPeerByIndex(peers);
+        hostManager.sendToAll({ type: 'PHASE', phase: 'night', night: 1 });
         setPlayers(generatedPlayers);
         setRound(1);
         setLastDeaths([]);
@@ -138,6 +148,15 @@ export default function WerwolfGame() {
         startFresh(settings, 'reveal');
       }
     }
+  };
+
+  /** Multiplayer: tell newly dead players' phones that they are out. */
+  const notifyDeaths = (indices: number[]) => {
+    if (!hostManager) return;
+    indices.forEach((i) => {
+      const peer = peerByIndex[i];
+      if (peer) hostManager.sendTo(peer, { type: 'YOU_DIED' });
+    });
   };
 
   const resolvePostDeaths = (
@@ -157,13 +176,16 @@ export default function WerwolfGame() {
     const win = resolveWinner(playersNow);
     if (win) {
       setWinner(win);
+      hostManager?.sendToAll({ type: 'PHASE', phase: 'result', winner: win });
       setPhase('result');
       return;
     }
     if (next === 'day') {
+      hostManager?.sendToAll({ type: 'PHASE', phase: 'day' });
       setPhase('day');
     } else {
-      setRound((r) => r + 1);
+      hostManager?.sendToAll({ type: 'PHASE', phase: 'night', night: round + 1 });
+      setRound(round + 1);
       setPhase('night');
     }
   };
@@ -174,6 +196,7 @@ export default function WerwolfGame() {
     setLastDeaths(res.deaths);
     if (res.healUsed) setHealUsed(true);
     if (res.poisonUsed) setPoisonUsed(true);
+    notifyDeaths(res.deaths);
     resolvePostDeaths(after, resolvedHunters, 'day');
   };
 
@@ -186,6 +209,7 @@ export default function WerwolfGame() {
     const after = applyDeaths(players, [lynch]);
     setPlayers(after);
     setLastDeaths([lynch]);
+    notifyDeaths([lynch]);
     resolvePostDeaths(after, resolvedHunters, 'night');
   };
 
@@ -196,6 +220,7 @@ export default function WerwolfGame() {
     const after = applyDeaths(players, [target]);
     setPlayers(after);
     setLastDeaths((prev) => [...prev, target]);
+    notifyDeaths([target]);
     resolvePostDeaths(after, resolved, afterHunter);
   };
 
@@ -219,12 +244,24 @@ export default function WerwolfGame() {
         witchHealUsed={healUsed}
         witchPoisonUsed={poisonUsed}
         onComplete={onNightComplete}
+        hostManager={hostManager}
+        peerByIndex={peerByIndex}
+        narrator={settings.narrator}
       />
     );
   }
 
   if (phase === 'hunter') {
-    return <HunterScreen players={players} onComplete={onHunterComplete} />;
+    return (
+      <HunterScreen
+        players={players}
+        onComplete={onHunterComplete}
+        hunterIndex={pendingHunter}
+        hostManager={hostManager}
+        peerByIndex={peerByIndex}
+        narrator={settings.narrator}
+      />
+    );
   }
 
   if (phase === 'day') {
@@ -236,6 +273,7 @@ export default function WerwolfGame() {
         timerEnabled={settings.timerEnabled}
         discussionMin={settings.discussionMin}
         onComplete={onDayComplete}
+        narrator={settings.narrator}
       />
     );
   }
@@ -247,6 +285,7 @@ export default function WerwolfGame() {
       onReplay={replay}
       onNewGame={() => setPhase('setup')}
       onExit={handleExit}
+      narrator={settings.narrator}
     />
   );
 }

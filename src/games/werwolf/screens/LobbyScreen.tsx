@@ -3,6 +3,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { useI18n } from '../../../i18n';
 import TopBar from '../../../components/TopBar';
 import { HostManager } from '../multiplayer';
+import { unlockNarrator } from '../narrator';
 import type { WerwolfSettings } from '../config';
 
 type Props = {
@@ -18,6 +19,10 @@ export default function LobbyScreen({ settings, onStart, onExit }: Props) {
   const managerRef = useRef<HostManager | null>(null);
 
   useEffect(() => {
+    // Guard against React StrictMode double-mount: a second HostManager would
+    // own a different peer id than the QR code shows, so joins would land on
+    // the wrong instance and the game would start with zero players.
+    if (managerRef.current) return;
     const manager = new HostManager(
       (id) => setHostId(id),
       (joinedPlayers) => setPlayers(joinedPlayers)
@@ -31,6 +36,7 @@ export default function LobbyScreen({ settings, onStart, onExit }: Props) {
 
   const handleStart = () => {
     if (managerRef.current) {
+      unlockNarrator(); // user gesture unlocks mobile audio playback
       onStart(managerRef.current);
     }
   };

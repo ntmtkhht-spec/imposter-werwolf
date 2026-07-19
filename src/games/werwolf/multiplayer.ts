@@ -1,20 +1,49 @@
 import { Peer, DataConnection } from 'peerjs';
 
-export type WerwolfMessage =
+/** A selectable player as sent to clients (no role information!). */
+export type Candidate = { index: number; name: string };
+
+export type NightStepKind = 'werewolf' | 'seer' | 'witch' | 'hunter';
+
+/** Extra context for the witch's turn. */
+export type WitchContext = {
+  victimName: string | null;
+  canHeal: boolean;
+  canPoison: boolean;
+};
+
+/** Messages sent from the host to clients. */
+export type HostMessage =
   | { type: 'ROLE'; role: string }
+  | { type: 'PHASE'; phase: 'night' | 'day' | 'result'; night?: number; winner?: 'village' | 'werewolves' }
+  | { type: 'YOUR_TURN'; step: NightStepKind; candidates: Candidate[]; witch?: WitchContext }
+  | { type: 'TURN_ENDED'; step: NightStepKind }
+  | { type: 'SEER_RESULT'; name: string; role: string }
+  | { type: 'YOU_DIED' }
   | { type: 'GAME_OVER' };
+
+/** Messages sent from a client to the host. */
+export type ClientMessage =
+  | { type: 'JOIN'; name: string }
+  | {
+      type: 'ACTION';
+      step: NightStepKind;
+      target?: number;
+      witch?: { heal: boolean; poisonTarget: number | null };
+    };
+
+export type WerwolfMessage = HostMessage | ClientMessage;
 
 export type ClientState = 'connecting' | 'waiting' | 'role' | 'error';
 
-/**
- * Hook or class to manage the host's connections.
- * For simplicity, we'll expose a class-based HostManager.
- */
 export class HostManager {
   private peer: Peer | null = null;
   public id: string | null = null;
   public connections: Map<string, DataConnection> = new Map();
   public players: { id: string; name: string }[] = [];
+  /** Set by the game screen to receive night actions from clients. */
+  public onAction: ((peerId: string, msg: Extract<ClientMessage, { type: 'ACTION' }>) => void) | null =
+    null;
 
   constructor(
     private onReady: (id: string) => void,
@@ -27,11 +56,14 @@ export class HostManager {
     });
 
     this.peer.on('connection', (conn) => {
-      conn.on('data', (data: any) => {
-        if (data.type === 'JOIN') {
+      conn.on('data', (data: unknown) => {
+        const msg = data as ClientMessage;
+        if (msg.type === 'JOIN') {
           this.connections.set(conn.peer, conn);
-          this.players.push({ id: conn.peer, name: data.name });
+          this.players.push({ id: conn.peer, name: msg.name });
           this.onPlayerJoin([...this.players]);
+        } else if (msg.type === 'ACTION') {
+          this.onAction?.(conn.peer, msg);
         }
       });
 
@@ -43,13 +75,13 @@ export class HostManager {
     });
   }
 
-  public sendToAll(msg: WerwolfMessage) {
+  public sendToAll(msg: HostMessage) {
     this.connections.forEach((conn) => {
       conn.send(msg);
     });
   }
 
-  public sendTo(peerId: string, msg: WerwolfMessage) {
+  public sendTo(peerId: string, msg: HostMessage) {
     const conn = this.connections.get(peerId);
     if (conn) {
       conn.send(msg);
@@ -69,7 +101,7 @@ export class ClientManager {
     private hostId: string,
     private playerName: string,
     private onStateChange: (state: ClientState) => void,
-    private onMessage: (msg: WerwolfMessage) => void,
+    private onMessage: (msg: HostMessage) => void,
   ) {
     this.peer = new Peer();
     this.peer.on('open', () => {
@@ -77,11 +109,11 @@ export class ClientManager {
 
       this.conn.on('open', () => {
         this.onStateChange('waiting');
-        this.conn!.send({ type: 'JOIN', name: this.playerName });
+        this.send({ type: 'JOIN', name: this.playerName });
       });
 
-      this.conn.on('data', (data: any) => {
-        this.onMessage(data as WerwolfMessage);
+      this.conn.on('data', (data: unknown) => {
+        this.onMessage(data as HostMessage);
       });
 
       this.conn.on('close', () => {
@@ -92,6 +124,10 @@ export class ClientManager {
     this.peer.on('error', () => {
       this.onStateChange('error');
     });
+  }
+
+  public send(msg: ClientMessage) {
+    this.conn?.send(msg);
   }
 
   public destroy() {

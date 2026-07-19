@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useI18n } from '../../../i18n';
 import Avatar from '../../../components/Avatar';
 import RoleIcon from '../RoleIcon';
 import PlayerPicker from './PlayerPicker';
 import { useTimer, formatTime } from '../../../hooks/useTimer';
 import { livingPlayers, type WerwolfPlayer } from '../logic';
+import { narrate } from '../narrator';
 import dayScene from '../../../assets/werwolf/day-scene.png';
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
   timerEnabled: boolean;
   discussionMin: number;
   onComplete: (lynchIndex: number | null) => void;
+  narrator?: boolean;
 };
 
 type Phase = 'announce' | 'discuss' | 'vote';
@@ -25,6 +27,7 @@ export default function DayScreen({
   timerEnabled,
   discussionMin,
   onComplete,
+  narrator: narratorOn = false,
 }: Props) {
   const { t } = useI18n();
   const w = t.werwolf.day;
@@ -36,6 +39,16 @@ export default function DayScreen({
     .map((i) => players.find((p) => p.index === i))
     .filter((p): p is WerwolfPlayer => Boolean(p));
   const living = livingPlayers(players);
+
+  // Narrator: day breaks, then announce whether someone died / voting begins.
+  useEffect(() => {
+    if (phase === 'announce') {
+      narrate(deadPlayers.length > 0 ? 'someone-died' : 'nobody-died', narratorOn);
+    } else if (phase === 'discuss') {
+      narrate('vote', narratorOn);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, narratorOn]);
 
   return (
     <div className="flex flex-1 flex-col px-5 pb-6 pt-4">

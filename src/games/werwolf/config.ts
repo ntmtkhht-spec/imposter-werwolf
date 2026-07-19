@@ -7,6 +7,8 @@ export type WerwolfSettings = {
   timerEnabled: boolean;
   discussionMin: number;
   multiplayer: boolean;
+  /** Read narrator lines aloud on the host device. */
+  narrator: boolean;
   /** Custom player names by slot; empty = default "Player N". */
   playerNames: string[];
 };
@@ -25,6 +27,7 @@ export const DEFAULT_SETTINGS: WerwolfSettings = {
   timerEnabled: true,
   discussionMin: 3,
   multiplayer: false,
+  narrator: true,
   playerNames: [],
 };
 
