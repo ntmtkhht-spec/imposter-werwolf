@@ -53,6 +53,8 @@ for (const [path, url] of Object.entries(clipModules)) {
 
 let audio: HTMLAudioElement | null = null;
 let unlocked = false;
+/** Bumped per narration so an aborted clip can't trigger the fallback voice. */
+let seq = 0;
 
 /** Pick the best-sounding German voice available on this device. */
 function pickGermanVoice(): SpeechSynthesisVoice | null {
@@ -104,13 +106,20 @@ export function stopNarrator() {
 /** Speak a narrator line. No-op when disabled or unsupported. */
 export function narrate(id: NarratorClipId, enabled: boolean) {
   if (!enabled) return;
+  const mine = ++seq;
   stopNarrator();
   const clip = clips[id];
   if (clip) {
     try {
       if (!audio) audio = new Audio();
       audio.src = clip;
-      void audio.play().catch(() => speakFallback(id));
+      void audio.play().catch((err: unknown) => {
+        // A newer narration replaced this one, or we deliberately paused it —
+        // that is not a playback failure, so don't talk over the new clip.
+        if (mine !== seq) return;
+        if (err instanceof Error && err.name === 'AbortError') return;
+        speakFallback(id);
+      });
       return;
     } catch {
       // fall through to speech synthesis
