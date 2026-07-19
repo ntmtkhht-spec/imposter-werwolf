@@ -184,7 +184,7 @@ export default function NightScreen({
     seerTarget !== null ? players.find((p) => p.index === seerTarget) : null;
 
   return (
-    <div className="relative flex flex-1 flex-col overflow-hidden bg-[#0b1026] px-5 pb-6 pt-4 text-slate-100">
+    <div className="bleed-safe relative flex flex-1 flex-col overflow-hidden bg-[#0b1026] px-5 text-slate-100">
       <img
         src={nightScene}
         aria-hidden

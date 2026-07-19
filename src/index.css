@@ -41,6 +41,16 @@
 }
 
 @layer utilities {
+  /* Full-bleed screens: cancel the app shell's safe-area padding so the
+     background image reaches into the notch/home-indicator area, then re-add
+     it as padding so the content itself stays clear of them. */
+  .bleed-safe {
+    margin-top: calc(-1 * env(safe-area-inset-top));
+    margin-bottom: calc(-1 * env(safe-area-inset-bottom));
+    padding-top: calc(env(safe-area-inset-top) + 1rem);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 1.5rem);
+  }
+
   /* --- Werwolf night atmosphere --- */
   .night-stars {
     background-image:

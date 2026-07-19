@@ -51,7 +51,7 @@ export default function DayScreen({
   }, [phase, narratorOn]);
 
   return (
-    <div className="relative flex flex-1 flex-col overflow-hidden bg-amber-50 px-5 pb-6 pt-4 text-slate-800">
+    <div className="bleed-safe relative flex flex-1 flex-col overflow-hidden bg-amber-50 px-5 text-slate-800">
       <img
         src={dayScene}
         aria-hidden
