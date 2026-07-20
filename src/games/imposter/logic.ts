@@ -14,6 +14,8 @@ export type PlayerRole = {
 export type Round = {
   secretWord: string;
   roles: PlayerRole[];
+  /** Index of the player who describes first; re-rolled every round. */
+  starterIndex: number;
 };
 
 export type BuildDeps = {
@@ -64,5 +66,8 @@ export function buildRound(
     };
   });
 
-  return { secretWord, roles };
+  // Anyone can start — picked fresh each round so it rotates naturally.
+  const starterIndex = Math.floor(rng() * settings.playerCount);
+
+  return { secretWord, roles, starterIndex };
 }

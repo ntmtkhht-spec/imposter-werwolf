@@ -145,6 +145,27 @@ describe('buildRound', () => {
   });
 });
 
+describe('starterIndex', () => {
+  it('always points at a real player', () => {
+    const s = normalizeSettings({ ...DEFAULT_SETTINGS, playerCount: 5 });
+    for (let i = 0; i < 50; i++) {
+      const round = buildRound(s, [cat], deps);
+      expect(round.starterIndex).toBeGreaterThanOrEqual(0);
+      expect(round.starterIndex).toBeLessThan(5);
+      expect(round.roles[round.starterIndex]).toBeDefined();
+    }
+  });
+
+  it('can pick every player over many rounds', () => {
+    const s = normalizeSettings({ ...DEFAULT_SETTINGS, playerCount: 4 });
+    const seen = new Set<number>();
+    for (let i = 0; i < 300; i++) {
+      seen.add(buildRound(s, [cat], deps).starterIndex);
+    }
+    expect(seen.size).toBe(4);
+  });
+});
+
 describe('normalizeSettings', () => {
   it('clamps imposters to players - 1', () => {
     const s = normalizeSettings({ ...DEFAULT_SETTINGS, playerCount: 4, imposterCount: 10 });

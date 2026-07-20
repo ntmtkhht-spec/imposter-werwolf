@@ -43,6 +43,9 @@ export const de = {
       imposter: 'Imposter',
       hintLabel: 'Hinweis',
       toTimer: 'Alle bereit — los geht’s',
+      starterTitle: 'Wer fängt an?',
+      starterSub: 'beginnt und sagt das erste Wort.',
+      starterGo: 'Los geht’s',
     },
     timer: {
       title: 'Findet den Imposter!',

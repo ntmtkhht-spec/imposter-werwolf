@@ -45,6 +45,9 @@ export const en: Dict = {
       imposter: 'Imposter',
       hintLabel: 'Hint',
       toTimer: 'Everyone ready — let’s go',
+      starterTitle: 'Who starts?',
+      starterSub: 'goes first and says the opening word.',
+      starterGo: 'Let’s go',
     },
     timer: {
       title: 'Find the imposter!',

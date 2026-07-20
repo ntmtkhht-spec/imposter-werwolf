@@ -6,10 +6,11 @@ import { buildRound, type Round } from './logic';
 import { normalizeSettings, type ImposterSettings } from './config';
 import SetupScreen from './screens/SetupScreen';
 import RevealScreen from './screens/RevealScreen';
+import StarterScreen from './screens/StarterScreen';
 import TimerScreen from './screens/TimerScreen';
 import ResultScreen from './screens/ResultScreen';
 
-type Phase = 'setup' | 'reveal' | 'timer' | 'result';
+type Phase = 'setup' | 'reveal' | 'starter' | 'timer' | 'result';
 
 export default function ImposterGame() {
   const { t, lang } = useI18n();
@@ -49,7 +50,11 @@ export default function ImposterGame() {
   }
 
   if (phase === 'reveal') {
-    return <RevealScreen round={round} onDone={() => setPhase('timer')} />;
+    return <RevealScreen round={round} onDone={() => setPhase('starter')} />;
+  }
+
+  if (phase === 'starter') {
+    return <StarterScreen round={round} onStart={() => setPhase('timer')} />;
   }
 
   if (phase === 'timer') {
