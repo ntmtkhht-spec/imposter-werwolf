@@ -16,6 +16,8 @@ export type Round = {
   roles: PlayerRole[];
   /** Index of the player who describes first; re-rolled every round. */
   starterIndex: number;
+  /** Player indices in the order they get handed the phone; shuffled per round. */
+  revealOrder: number[];
 };
 
 export type BuildDeps = {
@@ -69,5 +71,12 @@ export function buildRound(
   // Anyone can start — picked fresh each round so it rotates naturally.
   const starterIndex = Math.floor(rng() * settings.playerCount);
 
-  return { secretWord, roles, starterIndex };
+  // Hand the phone around in a different order every round, so the same
+  // person isn't always first to look at their card.
+  const revealOrder = shuffle(
+    Array.from({ length: settings.playerCount }, (_, i) => i),
+    rng,
+  );
+
+  return { secretWord, roles, starterIndex, revealOrder };
 }

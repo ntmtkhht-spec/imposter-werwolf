@@ -29,8 +29,10 @@ export default function RevealScreen({ round, onDone }: Props) {
   // the pointer-up doesn't toggle it a second time.
   const suppressClick = useRef(false);
 
-  const isLast = current >= round.roles.length - 1;
-  const role = round.roles[Math.min(current, round.roles.length - 1)];
+  const isLast = current >= round.revealOrder.length - 1;
+  // `current` walks the shuffled hand-around order, not the player index.
+  const playerIndex = round.revealOrder[Math.min(current, round.revealOrder.length - 1)];
+  const role = round.roles[playerIndex];
   const r = t.imposter.reveal;
 
   // The card only ever flips the role; advancing to the next player is the
@@ -87,7 +89,7 @@ export default function RevealScreen({ round, onDone }: Props) {
   return (
     <div className="flex flex-1 flex-col px-5 pb-6 pt-4">
       <p className="mb-4 text-center text-sm font-medium text-slate-400">
-        {r.player} {current + 1} / {round.roles.length}
+        {r.card} {current + 1} / {round.revealOrder.length}
       </p>
 
       <div className="relative min-h-[420px] flex-1 [perspective:1200px]">

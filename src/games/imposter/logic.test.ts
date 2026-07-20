@@ -166,6 +166,35 @@ describe('starterIndex', () => {
   });
 });
 
+describe('revealOrder', () => {
+  it('is a permutation of every player exactly once', () => {
+    const s = normalizeSettings({ ...DEFAULT_SETTINGS, playerCount: 6 });
+    for (let i = 0; i < 50; i++) {
+      const { revealOrder } = buildRound(s, [cat], deps);
+      expect(revealOrder).toHaveLength(6);
+      expect([...revealOrder].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5]);
+    }
+  });
+
+  it('varies between rounds', () => {
+    const s = normalizeSettings({ ...DEFAULT_SETTINGS, playerCount: 5 });
+    const seen = new Set<string>();
+    for (let i = 0; i < 100; i++) {
+      seen.add(buildRound(s, [cat], deps).revealOrder.join(','));
+    }
+    expect(seen.size).toBeGreaterThan(1);
+  });
+
+  it('lets anyone go first', () => {
+    const s = normalizeSettings({ ...DEFAULT_SETTINGS, playerCount: 4 });
+    const first = new Set<number>();
+    for (let i = 0; i < 300; i++) {
+      first.add(buildRound(s, [cat], deps).revealOrder[0]);
+    }
+    expect(first.size).toBe(4);
+  });
+});
+
 describe('normalizeSettings', () => {
   it('clamps imposters to players - 1', () => {
     const s = normalizeSettings({ ...DEFAULT_SETTINGS, playerCount: 4, imposterCount: 10 });

@@ -38,6 +38,7 @@ export const de = {
       tapToReveal: 'Nach oben wischen oder tippen',
       tapToHide: 'Zum Verbergen tippen',
       player: 'Spieler',
+      card: 'Karte',
       nextPlayer: 'Nächster Spieler',
       pass: 'Gib das Handy an den nächsten Spieler weiter.',
       imposter: 'Imposter',

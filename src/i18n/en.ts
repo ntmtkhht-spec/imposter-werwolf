@@ -40,6 +40,7 @@ export const en: Dict = {
       tapToReveal: 'Swipe up or tap to reveal',
       tapToHide: 'Tap to hide',
       player: 'Player',
+      card: 'Card',
       nextPlayer: 'Next player',
       pass: 'Pass the phone to the next player.',
       imposter: 'Imposter',
