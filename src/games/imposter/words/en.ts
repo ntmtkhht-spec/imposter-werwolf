@@ -272,4 +272,22 @@ export const categoriesEn: Category[] = [
       { word: 'Chorus', hint: 'Text' }, { word: 'Beat', hint: 'Sound' }, { word: 'Conductor', hint: 'Person' }, { word: 'Karaoke', hint: 'Bar' }
     ],
   },
+  {
+    id: 'crazy',
+    name: 'Crazy',
+    icon: '🤪',
+    hint: 'Crazy',
+    words: [
+      { word: 'Discombobulate', hint: 'Action' }, { word: 'Lollygag', hint: 'Action' }, { word: 'Kerfuffle', hint: 'Chaos' }, { word: 'Bamboozle', hint: 'Action' }, { word: 'Flabbergasted', hint: 'Feeling' },
+      { word: 'Gobbledygook', hint: 'Nonsense' }, { word: 'Malarkey', hint: 'Nonsense' }, { word: 'Codswallop', hint: 'Nonsense' }, { word: 'Skedaddle', hint: 'Action' }, { word: 'Hullabaloo', hint: 'Chaos' },
+      { word: 'Widdershins', hint: 'Direction' }, { word: 'Collywobbles', hint: 'Body' }, { word: 'Snollygoster', hint: 'Person' }, { word: 'Gallivant', hint: 'Action' }, { word: 'Brouhaha', hint: 'Chaos' },
+      { word: 'Rigmarole', hint: 'Process' }, { word: 'Cattywampus', hint: 'Crooked' }, { word: 'Nincompoop', hint: 'Person' }, { word: 'Shenanigans', hint: 'Mischief' }, { word: 'Whippersnapper', hint: 'Person' },
+      { word: 'Doohickey', hint: 'Thing' }, { word: 'Thingamajig', hint: 'Thing' }, { word: 'Persnickety', hint: 'Trait' }, { word: 'Curmudgeon', hint: 'Person' }, { word: 'Absquatulate', hint: 'Action' },
+      { word: 'Bumfuzzle', hint: 'Confusion' }, { word: 'Taradiddle', hint: 'Nonsense' }, { word: 'Lackadaisical', hint: 'Trait' }, { word: 'Hornswoggle', hint: 'Action' }, { word: 'Mollycoddle', hint: 'Action' },
+      { word: 'Cantankerous', hint: 'Trait' }, { word: 'Higgledy-piggledy', hint: 'Chaos' }, { word: 'Fuddy-duddy', hint: 'Person' }, { word: 'Rambunctious', hint: 'Trait' }, { word: 'Boondoggle', hint: 'Project' },
+      { word: 'Gubbins', hint: 'Thing' }, { word: 'Wishy-washy', hint: 'Trait' }, { word: 'Cahoots', hint: 'Scheming' }, { word: 'Flummoxed', hint: 'Feeling' }, { word: 'Dillydally', hint: 'Action' },
+      { word: 'Snickersnee', hint: 'Blade' }, { word: 'Bibliopole', hint: 'Person' }, { word: 'Quibble', hint: 'Argument' }, { word: 'Kumquat', hint: 'Fruit' }, { word: 'Wobbegong', hint: 'Animal' },
+      { word: 'Nudiustertian', hint: 'Time' }, { word: 'Pandiculation', hint: 'Body' }, { word: 'Borborygmus', hint: 'Body' }, { word: 'Petrichor', hint: 'Smell' }, { word: 'Gongoozler', hint: 'Person' }
+    ],
+  },
 ];

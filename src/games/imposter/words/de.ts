@@ -273,4 +273,22 @@ export const categoriesDe: Category[] = [
       { word: 'Refrain', hint: 'Text' }, { word: 'Beat', hint: 'Ton' }, { word: 'Dirigent', hint: 'Person' }, { word: 'Karaoke', hint: 'Bar' }
     ],
   },
+  {
+    id: 'crazy',
+    name: 'Verrückt',
+    icon: '🤪',
+    hint: 'Verrückt',
+    words: [
+      { word: 'Backpfeifengesicht', hint: 'Person' }, { word: 'Kummerspeck', hint: 'Körper' }, { word: 'Treppenwitz', hint: 'Gedanke' }, { word: 'Schnapsidee', hint: 'Gedanke' }, { word: 'Kuddelmuddel', hint: 'Chaos' },
+      { word: 'Firlefanz', hint: 'Kram' }, { word: 'Schabernack', hint: 'Streich' }, { word: 'Tohuwabohu', hint: 'Chaos' }, { word: 'Hokuspokus', hint: 'Zauber' }, { word: 'Schlawiner', hint: 'Person' },
+      { word: 'Dreikäsehoch', hint: 'Person' }, { word: 'Hüftgold', hint: 'Körper' }, { word: 'Zappelphilipp', hint: 'Person' }, { word: 'Erbsenzähler', hint: 'Person' }, { word: 'Schluckspecht', hint: 'Person' },
+      { word: 'Naseweis', hint: 'Person' }, { word: 'Sitzfleisch', hint: 'Körper' }, { word: 'Pantoffelheld', hint: 'Person' }, { word: 'Sauklaue', hint: 'Schrift' }, { word: 'Muskelkater', hint: 'Körper' },
+      { word: 'Katzenjammer', hint: 'Gefühl' }, { word: 'Weltschmerz', hint: 'Gefühl' }, { word: 'Torschlusspanik', hint: 'Gefühl' }, { word: 'Verschlimmbessern', hint: 'Handlung' }, { word: 'Gedankenkarussell', hint: 'Gedanke' },
+      { word: 'Schweinehund', hint: 'Gefühl' }, { word: 'Sommerloch', hint: 'Zeit' }, { word: 'Schnappatmung', hint: 'Körper' }, { word: 'Hexenschuss', hint: 'Körper' }, { word: 'Quatschkopf', hint: 'Person' },
+      { word: 'Wirrwarr', hint: 'Chaos' }, { word: 'Kladderadatsch', hint: 'Chaos' }, { word: 'Kabelsalat', hint: 'Chaos' }, { word: 'Zungenbrecher', hint: 'Sprache' }, { word: 'Luftschloss', hint: 'Gedanke' },
+      { word: 'Drahtesel', hint: 'Fahrzeug' }, { word: 'Extrawurst', hint: 'Verhalten' }, { word: 'Donnerbalken', hint: 'Örtchen' }, { word: 'Schnickschnack', hint: 'Kram' }, { word: 'Larifari', hint: 'Kram' },
+      { word: 'Mumpitz', hint: 'Unsinn' }, { word: 'Fisimatenten', hint: 'Unsinn' }, { word: 'Zinnober', hint: 'Unsinn' }, { word: 'Sperenzchen', hint: 'Unsinn' }, { word: 'Suppenkasper', hint: 'Person' },
+      { word: 'Nervensäge', hint: 'Person' }, { word: 'Angsthase', hint: 'Person' }, { word: 'Purzelbaum', hint: 'Bewegung' }, { word: 'Krawallschachtel', hint: 'Person' }, { word: 'Trantüte', hint: 'Person' }
+    ],
+  },
 ];
