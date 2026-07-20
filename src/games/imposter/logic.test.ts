@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { buildRound } from './logic';
 import { normalizeSettings, maxImposters, DEFAULT_SETTINGS } from './config';
+import { RULE_IDS } from './rules';
 import type { Category } from './words';
 
 const cat: Category = {
@@ -192,6 +193,34 @@ describe('revealOrder', () => {
       first.add(buildRound(s, [cat], deps).revealOrder[0]);
     }
     expect(first.size).toBe(4);
+  });
+});
+
+describe('special rule', () => {
+  it('draws no rule when the option is off', () => {
+    const s = normalizeSettings({ ...DEFAULT_SETTINGS, specialRule: false });
+    for (let i = 0; i < 20; i++) {
+      expect(buildRound(s, [cat], deps).ruleId).toBeNull();
+    }
+  });
+
+  it('always draws a known rule when the option is on', () => {
+    const s = normalizeSettings({ ...DEFAULT_SETTINGS, specialRule: true });
+    for (let i = 0; i < 50; i++) {
+      const { ruleId } = buildRound(s, [cat], deps);
+      expect(ruleId).not.toBeNull();
+      expect(RULE_IDS).toContain(ruleId as (typeof RULE_IDS)[number]);
+    }
+  });
+
+  it('can draw every rule in the pool', () => {
+    const s = normalizeSettings({ ...DEFAULT_SETTINGS, specialRule: true });
+    const seen = new Set<string>();
+    for (let i = 0; i < 500; i++) {
+      const id = buildRound(s, [cat], deps).ruleId;
+      if (id) seen.add(id);
+    }
+    expect(seen.size).toBe(RULE_IDS.length);
   });
 });
 

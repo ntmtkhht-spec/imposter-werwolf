@@ -48,6 +48,12 @@ export const de = {
       starterSub: 'beginnt und sagt das erste Wort.',
       starterGo: 'Los geht’s',
     },
+    rule: {
+      title: 'Sonderregel',
+      appliesToAll: 'Gilt für alle — auch für den Imposter.',
+      understood: 'Verstanden',
+      setupLabel: '🎲 Sonderregel',
+    },
     timer: {
       title: 'Findet den Imposter!',
       hint: 'Reihum sagt jede Person genau ein Wort zum Geheimwort.',

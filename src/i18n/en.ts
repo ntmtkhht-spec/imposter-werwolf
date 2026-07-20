@@ -50,6 +50,12 @@ export const en: Dict = {
       starterSub: 'goes first and says the opening word.',
       starterGo: 'Let’s go',
     },
+    rule: {
+      title: 'Special rule',
+      appliesToAll: 'Applies to everyone — the imposter included.',
+      understood: 'Got it',
+      setupLabel: '🎲 Special rule',
+    },
     timer: {
       title: 'Find the imposter!',
       hint: 'Take turns saying exactly one word about the secret word.',

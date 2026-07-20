@@ -1,5 +1,6 @@
 import { assignAvatars, shuffle } from '../../assets/avatars';
 import type { ImposterSettings } from './config';
+import { RULE_IDS } from './rules';
 import type { Category } from './words';
 
 export type PlayerRole = {
@@ -18,6 +19,8 @@ export type Round = {
   starterIndex: number;
   /** Player indices in the order they get handed the phone; shuffled per round. */
   revealOrder: number[];
+  /** Special rule drawn for this round, or null when the option is off. */
+  ruleId: string | null;
 };
 
 export type BuildDeps = {
@@ -78,5 +81,10 @@ export function buildRound(
     rng,
   );
 
-  return { secretWord, roles, starterIndex, revealOrder };
+  // Optional twist for the round, announced to everyone before play starts.
+  const ruleId = settings.specialRule
+    ? RULE_IDS[Math.floor(rng() * RULE_IDS.length)]
+    : null;
+
+  return { secretWord, roles, starterIndex, revealOrder, ruleId };
 }

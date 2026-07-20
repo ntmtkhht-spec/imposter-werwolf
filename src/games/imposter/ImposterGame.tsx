@@ -6,11 +6,12 @@ import { buildRound, type Round } from './logic';
 import { normalizeSettings, type ImposterSettings } from './config';
 import SetupScreen from './screens/SetupScreen';
 import RevealScreen from './screens/RevealScreen';
+import RuleScreen from './screens/RuleScreen';
 import StarterScreen from './screens/StarterScreen';
 import TimerScreen from './screens/TimerScreen';
 import ResultScreen from './screens/ResultScreen';
 
-type Phase = 'setup' | 'reveal' | 'starter' | 'timer' | 'result';
+type Phase = 'setup' | 'reveal' | 'rule' | 'starter' | 'timer' | 'result';
 
 export default function ImposterGame() {
   const { t, lang } = useI18n();
@@ -50,7 +51,17 @@ export default function ImposterGame() {
   }
 
   if (phase === 'reveal') {
-    return <RevealScreen round={round} onDone={() => setPhase('starter')} />;
+    // Skip the rule screen entirely when no rule was drawn for this round.
+    return (
+      <RevealScreen
+        round={round}
+        onDone={() => setPhase(round.ruleId ? 'rule' : 'starter')}
+      />
+    );
+  }
+
+  if (phase === 'rule') {
+    return <RuleScreen ruleId={round.ruleId} onContinue={() => setPhase('starter')} />;
   }
 
   if (phase === 'starter') {

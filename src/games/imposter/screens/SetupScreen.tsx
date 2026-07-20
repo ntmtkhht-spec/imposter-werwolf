@@ -118,6 +118,11 @@ export default function SetupScreen({ onStart, onExit }: Props) {
             onChange={(v) => patch({ hintsEnabled: v })}
           />
           <Toggle
+            label={t.imposter.rule.setupLabel}
+            checked={s.specialRule}
+            onChange={(v) => patch({ specialRule: v })}
+          />
+          <Toggle
             label={t.imposter.setup.timer}
             checked={s.timerEnabled}
             onChange={(v) => patch({ timerEnabled: v })}

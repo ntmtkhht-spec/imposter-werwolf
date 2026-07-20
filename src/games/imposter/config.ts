@@ -11,6 +11,8 @@ export type ImposterSettings = {
   playerNames: string[];
   timerEnabled: boolean;
   durationMin: number;
+  /** When on, each round draws one random special rule announced to everyone. */
+  specialRule: boolean;
 };
 
 export const LIMITS = {
@@ -27,6 +29,7 @@ export const DEFAULT_SETTINGS: ImposterSettings = {
   playerNames: [],
   timerEnabled: true,
   durationMin: 3,
+  specialRule: false,
 };
 
 /** Max imposters = players - 1 (at least one non-imposter must exist). */
