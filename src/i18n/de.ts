@@ -50,7 +50,6 @@ export const de = {
     },
     rule: {
       title: 'Sonderregel',
-      appliesToAll: 'Gilt für alle — auch für den Imposter.',
       understood: 'Verstanden',
       setupLabel: '🎲 Sonderregel',
     },

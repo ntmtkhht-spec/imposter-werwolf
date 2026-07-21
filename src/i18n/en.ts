@@ -52,7 +52,6 @@ export const en: Dict = {
     },
     rule: {
       title: 'Special rule',
-      appliesToAll: 'Applies to everyone — the imposter included.',
       understood: 'Got it',
       setupLabel: '🎲 Special rule',
     },

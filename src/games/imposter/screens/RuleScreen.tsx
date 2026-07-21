@@ -27,8 +27,6 @@ export default function RuleScreen({ ruleId, onContinue }: Props) {
 
         <div className="mt-6 text-3xl font-black text-brand">{rule.name}</div>
         <p className="mt-4 max-w-xs text-lg leading-snug text-slate-600">{rule.text}</p>
-
-        <p className="mt-8 text-sm text-slate-400">{r.appliesToAll}</p>
       </div>
 
       <button onClick={onContinue} className="btn-brand w-full text-lg">

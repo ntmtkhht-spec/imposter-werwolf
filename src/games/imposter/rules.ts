@@ -9,7 +9,16 @@ export type SpecialRule = {
 };
 
 /** Rule ids are language-neutral; only name/text are localized. */
-export const RULE_IDS = ['skip', 'question', 'chain', 'sing', 'mime', 'sounds', 'rhyme'] as const;
+export const RULE_IDS = [
+  'skip',
+  'question',
+  'chain',
+  'sing',
+  'mime',
+  'sounds',
+  'rhyme',
+  'louder',
+] as const;
 
 const rulesDe: SpecialRule[] = [
   {
@@ -53,6 +62,12 @@ const rulesDe: SpecialRule[] = [
     icon: '🎵',
     name: 'Reimzwang',
     text: 'Dein Wort muss sich auf das Wort deines Vorgängers reimen.',
+  },
+  {
+    id: 'louder',
+    icon: '📢',
+    name: 'Immer lauter',
+    text: 'Jeder muss lauter sein als sein Vorgänger. Am Ende wird geschrien.',
   },
 ];
 
@@ -98,6 +113,12 @@ const rulesEn: SpecialRule[] = [
     icon: '🎵',
     name: 'Must rhyme',
     text: 'Your word has to rhyme with the previous word.',
+  },
+  {
+    id: 'louder',
+    icon: '📢',
+    name: 'Louder each time',
+    text: 'Everyone must be louder than the player before them. It ends in shouting.',
   },
 ];
 
