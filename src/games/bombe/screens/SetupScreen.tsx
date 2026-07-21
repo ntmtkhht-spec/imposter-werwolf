@@ -4,6 +4,7 @@ import TopBar from '../../../components/TopBar';
 import LangToggle from '../../../components/LangToggle';
 import Stepper from '../../../components/Stepper';
 import Toggle from '../../../components/Toggle';
+import { setupHero } from '../assets';
 import { getTaskCategories } from '../tasks';
 import { DEFAULT_SETTINGS, LIMITS, normalizeSettings, type BombeSettings } from '../config';
 
@@ -49,6 +50,11 @@ export default function SetupScreen({ onStart, onExit }: Props) {
       />
 
       <div className="flex-1 overflow-y-auto px-5 pb-2">
+        <img
+          src={setupHero}
+          alt=""
+          className="mb-3 h-32 w-full rounded-3xl object-cover"
+        />
         <p className="mb-4 text-sm text-slate-500">{t.bombe.tagline}</p>
 
         <section className="rounded-3xl bg-slate-50 px-4 py-1">

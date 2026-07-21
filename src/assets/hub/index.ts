@@ -6,6 +6,7 @@ import truthdare from './truthdare.webp';
 import wouldyou from './wouldyou.webp';
 import charades from './charades.webp';
 import werwolf from './werwolf.png';
+import bombe from './bombe.webp';
 
 export const brandLogo = logo;
 
@@ -15,4 +16,5 @@ export const gameImages: Record<string, string> = {
   wouldyou,
   charades,
   werwolf,
+  bombe,
 };
