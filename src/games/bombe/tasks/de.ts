@@ -9,6 +9,7 @@ export const taskCategoriesDe: TaskCategory[] = [
     id: 'klassik',
     name: 'Klassiker',
     icon: '🎲',
+    image: 'easy',
     tasks: [
       'Nenne eine Automarke',
       'Nenne eine Farbe',
@@ -95,6 +96,7 @@ export const taskCategoriesDe: TaskCategory[] = [
     id: 'pop',
     name: 'Promis & Popkultur',
     icon: '🌟',
+    image: 'stars',
     tasks: [
       'Nenne einen Fußballer',
       'Nenne eine Sängerin',
@@ -138,6 +140,7 @@ export const taskCategoriesDe: TaskCategory[] = [
     id: 'ortereisen',
     name: 'Orte & Reisen',
     icon: '🌍',
+    image: 'countries',
     tasks: [
       'Nenne ein Urlaubsland',
       'Nenne eine Insel',
@@ -181,6 +184,7 @@ export const taskCategoriesDe: TaskCategory[] = [
     id: 'buchstaben',
     name: 'Buchstaben-Chaos',
     icon: '🔤',
+    image: 'buchstaben',
     tasks: [
       'Nenne ein Tier mit A',
       'Nenne ein Tier mit K',
@@ -224,6 +228,7 @@ export const taskCategoriesDe: TaskCategory[] = [
     id: 'partyfun',
     name: 'Party & Peinlich',
     icon: '🎉',
+    image: 'party',
     tasks: [
       'Nenne eine Ausrede fürs Zuspätkommen',
       'Nenne etwas, das man auf einer Party nicht tun sollte',
@@ -267,6 +272,7 @@ export const taskCategoriesDe: TaskCategory[] = [
     id: 'pikant',
     name: '18+ Pikant',
     icon: '🔞',
+    image: 'adult',
     adult: true,
     tasks: [
       'Nenne einen Ort für ein heimliches Date',

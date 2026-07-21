@@ -190,6 +190,7 @@ export const en: Dict = {
       newTask: 'New prompt per pass',
       sound: 'Ticking & explosion',
       categories: 'Categories',
+      categoriesWord: 'categories',
       start: 'Light the fuse',
     },
     play: {

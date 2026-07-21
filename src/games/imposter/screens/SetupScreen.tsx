@@ -7,7 +7,7 @@ import Stepper from '../../../components/Stepper';
 import Toggle from '../../../components/Toggle';
 import CategoryPicker from './CategoryPicker';
 import PlayerNamesScreen from './PlayerNamesScreen';
-import CategoryIcon from '../CategoryIcon';
+import CategoryIcon from '../../../components/CategoryIcon';
 import setupHero from '../../../assets/hero/setup-hero.webp';
 import { getCategories, getCategoriesByIds } from '../words';
 import {
@@ -146,7 +146,7 @@ export default function SetupScreen({ onStart, onExit }: Props) {
           onClick={() => setView('categories')}
           className="flex w-full items-center gap-3 rounded-2xl bg-slate-50 px-4 py-4 text-left transition active:scale-[0.99]"
         >
-          <CategoryIcon categoryId={catId} fallbackEmoji={catEmoji} size={36} />
+          <CategoryIcon imageKey={catId} fallbackEmoji={catEmoji} size={36} />
           <span className="min-w-0 flex-1 truncate font-semibold">{catLabel}</span>
           <span className="shrink-0 text-slate-300">›</span>
         </button>

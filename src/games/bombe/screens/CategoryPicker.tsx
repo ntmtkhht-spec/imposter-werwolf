@@ -1,14 +1,14 @@
 import { useI18n } from '../../../i18n';
 import TopBar from '../../../components/TopBar';
 import CategoryIcon from '../../../components/CategoryIcon';
-import type { Category } from '../words';
+import type { TaskCategory } from '../tasks';
 
-interface CategoryPickerProps {
-  categories: Category[];
+type Props = {
+  categories: TaskCategory[];
   selectedIds: string[];
   onChange: (ids: string[]) => void;
   onBack: () => void;
-}
+};
 
 /** Full-page category picker. Selections apply immediately; back returns to setup. */
 export default function CategoryPicker({
@@ -16,7 +16,7 @@ export default function CategoryPicker({
   selectedIds,
   onChange,
   onBack,
-}: CategoryPickerProps) {
+}: Props) {
   const { t } = useI18n();
   const selected = new Set(selectedIds);
 
@@ -35,7 +35,7 @@ export default function CategoryPicker({
   return (
     <>
       <TopBar
-        title={t.imposter.setup.category}
+        title={t.bombe.setup.categories}
         left={
           <button onClick={onBack} className="text-2xl leading-none" aria-label={t.common.back}>
             ←
@@ -43,7 +43,7 @@ export default function CategoryPicker({
         }
         right={
           <span className="text-sm font-semibold text-slate-400">
-            {selected.size} {t.imposter.setup.categoriesWord}
+            {selected.size} {t.bombe.setup.categoriesWord}
           </span>
         }
       />
@@ -68,10 +68,8 @@ export default function CategoryPicker({
                 >
                   ✓
                 </span>
-                <CategoryIcon imageKey={c.id} fallbackEmoji={c.icon} size={120} />
-                <span className="line-clamp-2 text-sm font-semibold leading-tight">
-                  {c.name}
-                </span>
+                <CategoryIcon imageKey={c.image ?? c.id} fallbackEmoji={c.icon} size={120} />
+                <span className="line-clamp-2 text-sm font-semibold leading-tight">{c.name}</span>
               </button>
             );
           })}

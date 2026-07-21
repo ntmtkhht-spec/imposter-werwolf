@@ -188,6 +188,7 @@ export const de = {
       newTask: 'Neue Aufgabe pro Weitergabe',
       sound: 'Ticken & Explosion',
       categories: 'Kategorien',
+      categoriesWord: 'Kategorien',
       start: 'Bombe zünden',
     },
     play: {

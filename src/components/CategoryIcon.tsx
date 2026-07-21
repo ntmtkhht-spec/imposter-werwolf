@@ -1,7 +1,8 @@
-import { categoryIcons } from '../../assets/categories';
+import { categoryIcons } from '../assets/categories';
 
 type Props = {
-  categoryId: string;
+  /** Key in src/assets/categories (filename without extension). */
+  imageKey: string;
   fallbackEmoji: string;
   size?: number;
   className?: string;
@@ -9,12 +10,12 @@ type Props = {
 
 /** Renders a generated category icon image, or the emoji fallback if missing. */
 export default function CategoryIcon({
-  categoryId,
+  imageKey,
   fallbackEmoji,
   size = 40,
   className = '',
 }: Props) {
-  const src = categoryIcons[categoryId];
+  const src = categoryIcons[imageKey];
   if (src) {
     return (
       <img
