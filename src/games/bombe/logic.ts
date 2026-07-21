@@ -1,4 +1,4 @@
-import type { BombeSettings } from './config';
+import { FUSE_MIN_SECONDS, FUSE_RANDOM_SECONDS } from './config';
 import type { TaskCategory } from './tasks';
 
 export type BombRound = {
@@ -27,10 +27,9 @@ function shuffleWith(rng: () => number, items: string[]): string[] {
 /**
  * Build a fresh bomb round: shuffled prompt queue from the selected
  * categories plus the randomized explosion delay. The delay is always at
- * least minSeconds; only the window after that is random.
+ * least FUSE_MIN_SECONDS; only the window after that is random.
  */
 export function buildBombRound(
-  settings: BombeSettings,
   categories: TaskCategory[],
   deps: BuildDeps = {},
 ): BombRound {
@@ -44,8 +43,7 @@ export function buildBombRound(
   const pool = fresh.length > 0 ? fresh : all;
 
   const tasks = shuffleWith(rng, pool);
-  const explodeAfterMs =
-    (settings.minSeconds + rng() * settings.extraSeconds) * 1000;
+  const explodeAfterMs = (FUSE_MIN_SECONDS + rng() * FUSE_RANDOM_SECONDS) * 1000;
 
   return { tasks, explodeAfterMs };
 }

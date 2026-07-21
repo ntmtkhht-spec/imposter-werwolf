@@ -182,11 +182,7 @@ export const de = {
     name: 'Bombe',
     tagline: 'Antworte schnell und gib die Bombe weiter, bevor sie hochgeht.',
     setup: {
-      fuseMin: 'Sichere Zeit',
-      fuseExtra: 'Zufallszeit danach',
-      seconds: 'Sek',
       newTask: 'Neue Aufgabe pro Weitergabe',
-      sound: 'Ticken & Explosion',
       categories: 'Kategorien',
       categoriesWord: 'Kategorien',
       start: 'Bombe zünden',

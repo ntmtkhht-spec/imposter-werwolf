@@ -3,13 +3,12 @@ import { useI18n } from '../../../i18n';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import TopBar from '../../../components/TopBar';
 import LangToggle from '../../../components/LangToggle';
-import Stepper from '../../../components/Stepper';
 import Toggle from '../../../components/Toggle';
 import CategoryIcon from '../../../components/CategoryIcon';
 import CategoryPicker from './CategoryPicker';
 import { setupHero } from '../assets';
 import { getTaskCategories, getTaskCategoriesByIds } from '../tasks';
-import { DEFAULT_SETTINGS, LIMITS, normalizeSettings, type BombeSettings } from '../config';
+import { DEFAULT_SETTINGS, normalizeSettings, type BombeSettings } from '../config';
 
 type Props = {
   onStart: (s: BombeSettings) => void;
@@ -64,32 +63,11 @@ export default function SetupScreen({ onStart, onExit }: Props) {
         <img src={setupHero} alt="" className="mx-auto mb-4 w-full rounded-2xl" />
         <p className="mb-4 text-sm text-slate-500">{t.bombe.tagline}</p>
 
-        <section className="divide-y divide-slate-200 rounded-2xl bg-slate-50 px-4">
-          <Stepper
-            label={t.bombe.setup.fuseMin}
-            value={s.minSeconds}
-            min={LIMITS.minSeconds.min}
-            max={LIMITS.minSeconds.max}
-            suffix={t.bombe.setup.seconds}
-            onChange={(v) => patch({ minSeconds: v })}
-          />
-          <Stepper
-            label={t.bombe.setup.fuseExtra}
-            value={s.extraSeconds}
-            min={LIMITS.extraSeconds.min}
-            max={LIMITS.extraSeconds.max}
-            suffix={t.bombe.setup.seconds}
-            onChange={(v) => patch({ extraSeconds: v })}
-          />
+        <section className="rounded-2xl bg-slate-50 px-4">
           <Toggle
             label={t.bombe.setup.newTask}
             checked={s.newTaskPerPass}
             onChange={(v) => patch({ newTaskPerPass: v })}
-          />
-          <Toggle
-            label={t.bombe.setup.sound}
-            checked={s.soundEnabled}
-            onChange={(v) => patch({ soundEnabled: v })}
           />
         </section>
 

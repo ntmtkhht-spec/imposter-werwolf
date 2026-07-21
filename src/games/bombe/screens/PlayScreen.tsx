@@ -24,7 +24,7 @@ export default function PlayScreen({ settings, round, onBoom }: Props) {
     const timer = setTimeout(() => {
       if (boomFired.current) return;
       boomFired.current = true;
-      if (settings.soundEnabled) playExplosion();
+      playExplosion();
       navigator.vibrate?.([180, 80, 400]);
       onBoom([...shownRef.current]);
     }, round.explodeAfterMs);
@@ -44,7 +44,7 @@ export default function PlayScreen({ settings, round, onBoom }: Props) {
       const elapsed = (Date.now() - started) / 1000;
       const heat = Math.min(1, elapsed / 45); // full speed after 45s
       setIntensity(heat);
-      if (settings.soundEnabled) playTick();
+      playTick();
       tickTimer = setTimeout(tick, 750 - heat * 480); // 750ms -> 270ms
     };
     tick();
@@ -69,10 +69,12 @@ export default function PlayScreen({ settings, round, onBoom }: Props) {
   return (
     <button
       onClick={pass}
-      className="flex flex-1 select-none flex-col items-center justify-between bg-ink px-6 pb-10 pt-14 text-center text-white"
+      className="flex flex-1 select-none flex-col items-center justify-between bg-ink px-4 pb-10 pt-10 text-center text-white"
     >
-      <div className="rounded-2xl bg-white/10 px-5 py-4">
-        <div className="text-2xl font-black leading-snug">{task}</div>
+      {/* High-contrast card: the prompt has to be readable at a glance
+          while the phone is already moving toward the next player. */}
+      <div className="w-full rounded-3xl bg-white px-5 py-7 shadow-2xl">
+        <div className="text-3xl font-black leading-tight text-ink">{task}</div>
       </div>
 
       <BombGraphic intensity={intensity} />

@@ -43,7 +43,7 @@ export default function BombeGame() {
   const [round, setRound] = useState<BombRound | null>(null);
 
   const makeRound = (s: BombeSettings): BombRound =>
-    buildBombRound(s, getTaskCategoriesByIds(s.categoryIds), {
+    buildBombRound(getTaskCategoriesByIds(s.categoryIds), {
       recentTasks: loadRecentTasks(),
     });
 

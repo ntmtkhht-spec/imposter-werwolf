@@ -184,11 +184,7 @@ export const en: Dict = {
     name: 'Bomb',
     tagline: 'Answer fast and pass the bomb before it goes off.',
     setup: {
-      fuseMin: 'Safe time',
-      fuseExtra: 'Random time after',
-      seconds: 'sec',
       newTask: 'New prompt per pass',
-      sound: 'Ticking & explosion',
       categories: 'Categories',
       categoriesWord: 'categories',
       start: 'Light the fuse',
