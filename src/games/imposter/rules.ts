@@ -10,7 +10,6 @@ export type SpecialRule = {
 
 /** Rule ids are language-neutral; only name/text are localized. */
 export const RULE_IDS = [
-  'skip',
   'question',
   'chain',
   'sing',
@@ -21,12 +20,6 @@ export const RULE_IDS = [
 ] as const;
 
 const rulesDe: SpecialRule[] = [
-  {
-    id: 'skip',
-    icon: '🙅',
-    name: 'Aussetzen erlaubt',
-    text: 'Jeder darf in dieser Runde genau einmal passen, statt ein Wort zu sagen.',
-  },
   {
     id: 'question',
     icon: '❓',
@@ -72,12 +65,6 @@ const rulesDe: SpecialRule[] = [
 ];
 
 const rulesEn: SpecialRule[] = [
-  {
-    id: 'skip',
-    icon: '🙅',
-    name: 'One pass each',
-    text: 'Everyone may skip their turn exactly once this round instead of saying a word.',
-  },
   {
     id: 'question',
     icon: '❓',
