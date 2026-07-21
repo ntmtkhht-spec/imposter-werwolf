@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../../i18n';
 import type { BombRound } from '../logic';
 import { playExplosion, playTick } from '../sound';
+import { background } from '../assets';
 import BombGraphic from '../BombGraphic';
 
 type Props = {
@@ -66,7 +67,8 @@ export default function PlayScreen({ round, onBoom }: Props) {
   return (
     <button
       onClick={pass}
-      className="flex flex-1 select-none flex-col items-center justify-between bg-ink px-4 pb-10 pt-10 text-center text-white"
+      style={{ backgroundImage: `url(${background})` }}
+      className="flex flex-1 select-none flex-col items-center justify-between bg-ink bg-cover bg-center px-4 pb-10 pt-10 text-center text-white"
     >
       {/* High-contrast card: the prompt has to be readable at a glance
           while the phone is already moving toward the next player. */}
