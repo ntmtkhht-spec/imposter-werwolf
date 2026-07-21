@@ -184,7 +184,6 @@ export const en: Dict = {
     name: 'Bomb',
     tagline: 'Answer fast and pass the bomb before it goes off.',
     setup: {
-      newTask: 'New prompt per pass',
       categories: 'Categories',
       categoriesWord: 'categories',
       start: 'Light the fuse',

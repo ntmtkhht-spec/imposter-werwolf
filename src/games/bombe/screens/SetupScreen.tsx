@@ -3,7 +3,6 @@ import { useI18n } from '../../../i18n';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import TopBar from '../../../components/TopBar';
 import LangToggle from '../../../components/LangToggle';
-import Toggle from '../../../components/Toggle';
 import CategoryIcon from '../../../components/CategoryIcon';
 import CategoryPicker from './CategoryPicker';
 import { setupHero } from '../assets';
@@ -63,15 +62,7 @@ export default function SetupScreen({ onStart, onExit }: Props) {
         <img src={setupHero} alt="" className="mx-auto mb-4 w-full rounded-2xl" />
         <p className="mb-4 text-sm text-slate-500">{t.bombe.tagline}</p>
 
-        <section className="rounded-2xl bg-slate-50 px-4">
-          <Toggle
-            label={t.bombe.setup.newTask}
-            checked={s.newTaskPerPass}
-            onChange={(v) => patch({ newTaskPerPass: v })}
-          />
-        </section>
-
-        <h2 className="mb-2 mt-6 px-1 text-sm font-semibold text-slate-500">
+        <h2 className="mb-2 px-1 text-sm font-semibold text-slate-500">
           {t.bombe.setup.categories}
         </h2>
         <button

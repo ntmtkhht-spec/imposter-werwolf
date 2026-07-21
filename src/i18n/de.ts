@@ -182,7 +182,6 @@ export const de = {
     name: 'Bombe',
     tagline: 'Antworte schnell und gib die Bombe weiter, bevor sie hochgeht.',
     setup: {
-      newTask: 'Neue Aufgabe pro Weitergabe',
       categories: 'Kategorien',
       categoriesWord: 'Kategorien',
       start: 'Bombe zünden',

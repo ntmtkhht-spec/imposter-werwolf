@@ -65,7 +65,6 @@ export default function BombeGame() {
   if (phase === 'play' && settings && round) {
     return (
       <PlayScreen
-        settings={settings}
         round={round}
         onBoom={(shown) => {
           rememberTasks(shown);

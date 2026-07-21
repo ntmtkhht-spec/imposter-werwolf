@@ -1,18 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../../i18n';
-import type { BombeSettings } from '../config';
 import type { BombRound } from '../logic';
 import { playExplosion, playTick } from '../sound';
 import BombGraphic from '../BombGraphic';
 
 type Props = {
-  settings: BombeSettings;
   round: BombRound;
   /** Called once when the bomb goes off, with every prompt that was shown. */
   onBoom: (shownTasks: string[]) => void;
 };
 
-export default function PlayScreen({ settings, round, onBoom }: Props) {
+export default function PlayScreen({ round, onBoom }: Props) {
   const { t } = useI18n();
   const [taskIndex, setTaskIndex] = useState(0);
   const [intensity, setIntensity] = useState(0);
@@ -59,7 +57,6 @@ export default function PlayScreen({ settings, round, onBoom }: Props) {
   const task = round.tasks[taskIndex % round.tasks.length];
 
   const pass = () => {
-    if (!settings.newTaskPerPass) return;
     const next = (taskIndex + 1) % round.tasks.length;
     setTaskIndex(next);
     shownRef.current.add(round.tasks[next % round.tasks.length]);
@@ -81,9 +78,7 @@ export default function PlayScreen({ settings, round, onBoom }: Props) {
 
       <div>
         <div className="text-lg font-bold">{t.bombe.play.pass}</div>
-        {settings.newTaskPerPass && (
-          <div className="mt-1 text-sm text-white/60">{t.bombe.play.tapHint}</div>
-        )}
+        <div className="mt-1 text-sm text-white/60">{t.bombe.play.tapHint}</div>
       </div>
     </button>
   );

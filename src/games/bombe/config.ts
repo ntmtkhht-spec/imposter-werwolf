@@ -1,8 +1,6 @@
 export type BombeSettings = {
   /** One or more selected task categories; prompts are drawn from these. */
   categoryIds: string[];
-  /** New prompt every time the bomb is passed (off = one prompt per round). */
-  newTaskPerPass: boolean;
 };
 
 /**
@@ -15,7 +13,6 @@ export const FUSE_RANDOM_SECONDS = 25;
 
 export const DEFAULT_SETTINGS: BombeSettings = {
   categoryIds: ['klassik'],
-  newTaskPerPass: true,
 };
 
 /** Clamp settings so they stay internally consistent after any change. */
@@ -23,9 +20,6 @@ export function normalizeSettings(s: BombeSettings): BombeSettings {
   let categoryIds = Array.isArray(s.categoryIds) ? s.categoryIds.filter(Boolean) : [];
   if (categoryIds.length === 0) categoryIds = ['klassik'];
   // Rebuilt explicitly so settings stored under an older schema (fuse
-  // steppers, sound toggle) don't linger in localStorage.
-  return {
-    categoryIds,
-    newTaskPerPass: s.newTaskPerPass !== false,
-  };
+  // steppers, sound and per-pass toggles) don't linger in localStorage.
+  return { categoryIds };
 }
