@@ -30,6 +30,13 @@ describe.each(categoriesDe.map((c) => [c.name, c] as const))('category %s', (_na
     }
   });
 
+  it('never uses another word of the same category as a hint', () => {
+    const words = new Set(cat.words.map((w) => w.word.toLowerCase()));
+    for (const { word, hint } of cat.words) {
+      expect(words.has(hint.toLowerCase()), `hint for "${word}" is itself a word here`).toBe(false);
+    }
+  });
+
   it('repeats a hint at most twice', () => {
     const counts = new Map<string, number>();
     for (const { hint } of cat.words) {
