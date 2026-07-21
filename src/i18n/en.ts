@@ -180,4 +180,28 @@ export const en: Dict = {
       toHub: 'Menu',
     },
   },
+  bombe: {
+    name: 'Bomb',
+    tagline: 'Answer fast and pass the bomb before it goes off.',
+    setup: {
+      fuseMin: 'Safe time',
+      fuseExtra: 'Random time after',
+      seconds: 'sec',
+      newTask: 'New prompt per pass',
+      sound: 'Ticking & explosion',
+      categories: 'Categories',
+      start: 'Light the fuse',
+    },
+    play: {
+      pass: 'Answer, then pass it on!',
+      tapHint: 'Tap for the next prompt',
+    },
+    boom: {
+      title: 'BOOM!',
+      loser: 'Whoever is holding the bomb loses the round.',
+      again: 'Play again',
+      newGame: 'New game',
+      toHub: 'Menu',
+    },
+  },
 };

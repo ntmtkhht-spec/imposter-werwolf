@@ -178,6 +178,30 @@ export const de = {
       toHub: 'Zum Menü',
     },
   },
+  bombe: {
+    name: 'Bombe',
+    tagline: 'Antworte schnell und gib die Bombe weiter, bevor sie hochgeht.',
+    setup: {
+      fuseMin: 'Sichere Zeit',
+      fuseExtra: 'Zufallszeit danach',
+      seconds: 'Sek',
+      newTask: 'Neue Aufgabe pro Weitergabe',
+      sound: 'Ticken & Explosion',
+      categories: 'Kategorien',
+      start: 'Bombe zünden',
+    },
+    play: {
+      pass: 'Antworten, dann weitergeben!',
+      tapHint: 'Tippen für die nächste Aufgabe',
+    },
+    boom: {
+      title: 'BUMM!',
+      loser: 'Wer die Bombe gerade hält, verliert die Runde.',
+      again: 'Nochmal',
+      newGame: 'Neues Spiel',
+      toHub: 'Zum Menü',
+    },
+  },
 };
 
 export type Dict = typeof de;
