@@ -27,6 +27,8 @@ export type BuildDeps = {
   imposterLabel: string; // localized "Imposter"
   /** Resolved display name per player index (custom name or default "Player N"). */
   playerNames: string[];
+  /** Secret words of recent rounds; avoided when the category has other words left. */
+  recentWords?: string[];
   rng?: () => number; // injectable for tests
   assign?: (n: number) => string[]; // injectable avatar assigner for tests
 };
@@ -43,7 +45,13 @@ export function buildRound(
   // Pick one of the selected categories, then a word from it. The chosen
   // category also drives the imposter hint.
   const category = categories[Math.floor(rng() * categories.length)] ?? categories[0];
-  const secretWordObj = category.words[Math.floor(rng() * category.words.length)];
+
+  // Skip recently played words so rounds don't repeat; if the whole category
+  // was played recently, fall back to the full list rather than failing.
+  const recent = new Set(deps.recentWords ?? []);
+  const fresh = category.words.filter((w) => !recent.has(w.word));
+  const pool = fresh.length > 0 ? fresh : category.words;
+  const secretWordObj = pool[Math.floor(rng() * pool.length)];
   const secretWord = secretWordObj.word;
 
   // Actual imposter count: fixed, or random 1..max when enabled. Always ≥1,

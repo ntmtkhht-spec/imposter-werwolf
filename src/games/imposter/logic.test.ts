@@ -144,6 +144,23 @@ describe('buildRound', () => {
     expect(fromA).toBe(true);
     expect(fromB).toBe(true);
   });
+
+  it('avoids recently played words', () => {
+    const s = normalizeSettings(DEFAULT_SETTINGS);
+    for (let i = 0; i < 50; i++) {
+      const round = buildRound(s, [cat], { ...deps, recentWords: ['Alpha', 'Beta'] });
+      expect(round.secretWord).toBe('Gamma');
+    }
+  });
+
+  it('falls back to the full category when every word is recent', () => {
+    const s = normalizeSettings(DEFAULT_SETTINGS);
+    const round = buildRound(s, [cat], {
+      ...deps,
+      recentWords: ['Alpha', 'Beta', 'Gamma'],
+    });
+    expect(cat.words.map((w) => w.word)).toContain(round.secretWord);
+  });
 });
 
 describe('starterIndex', () => {

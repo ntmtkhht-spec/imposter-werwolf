@@ -1,5 +1,5 @@
 // Category icon images, generated via Higgsfield. Keyed by category id
-// (filename without extension) so words/de.ts and words/en.ts can share them.
+// (filename without extension), matching the ids in words/de.ts.
 const modules = import.meta.glob('./*.{png,jpg,jpeg,webp,svg}', {
   eager: true,
   query: '?url',

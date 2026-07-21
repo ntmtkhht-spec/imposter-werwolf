@@ -24,20 +24,20 @@ type Props = {
 };
 
 export default function SetupScreen({ onStart, onExit }: Props) {
-  const { t, lang } = useI18n();
+  const { t } = useI18n();
   const [settings, setSettings] = useLocalStorage<ImposterSettings>(
     'imposter.settings',
     DEFAULT_SETTINGS,
   );
   const [view, setView] = useState<'setup' | 'categories' | 'names'>('setup');
-  const categories = getCategories(lang);
+  const categories = getCategories();
   // Merge over defaults so settings saved by an older schema still get any
   // newly-added keys (e.g. randomImposters).
   const s = normalizeSettings({ ...DEFAULT_SETTINGS, ...settings });
   const patch = (p: Partial<ImposterSettings>) =>
     setSettings(normalizeSettings({ ...s, ...p }));
 
-  const selectedCats = getCategoriesByIds(lang, s.categoryIds);
+  const selectedCats = getCategoriesByIds(s.categoryIds);
   const catLabel =
     selectedCats.length === 1
       ? selectedCats[0].name
