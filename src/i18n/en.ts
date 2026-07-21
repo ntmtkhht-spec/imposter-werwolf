@@ -184,8 +184,14 @@ export const en: Dict = {
     name: 'Bomb',
     tagline: 'Answer fast and pass the bomb before it goes off.',
     setup: {
+      headline: 'Answer. Pass it on. Survive.',
       categories: 'Categories',
       categoriesWord: 'categories',
+      categoriesHint: 'Where the prompts come from',
+      howTo: 'How it works',
+      step1: 'Answer the prompt out loud',
+      step2: 'Tap and hand the phone on',
+      step3: 'Holding it at the bang means you lose',
       start: 'Light the fuse',
     },
     play: {

@@ -182,8 +182,14 @@ export const de = {
     name: 'Bombe',
     tagline: 'Antworte schnell und gib die Bombe weiter, bevor sie hochgeht.',
     setup: {
+      headline: 'Antworten. Weitergeben. Überleben.',
       categories: 'Kategorien',
       categoriesWord: 'Kategorien',
+      categoriesHint: 'Woraus die Aufgaben kommen',
+      howTo: 'So geht’s',
+      step1: 'Aufgabe laut beantworten',
+      step2: 'Antippen und Handy weitergeben',
+      step3: 'Wer sie beim Knall hält, verliert',
       start: 'Bombe zünden',
     },
     play: {
