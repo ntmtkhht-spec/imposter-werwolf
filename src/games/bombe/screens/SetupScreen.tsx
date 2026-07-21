@@ -60,14 +60,9 @@ export default function SetupScreen({ onStart, onExit }: Props) {
       />
 
       <div className="flex-1 overflow-y-auto pb-4">
-        {/* Full-bleed artwork that fades into the page, so the screen opens
-            with the scene instead of a floating thumbnail. */}
-        <div className="relative">
-          <img src={setupHero} alt="" className="h-52 w-full object-cover" />
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent" />
-        </div>
+        <img src={setupHero} alt="" className="h-48 w-full object-contain" />
 
-        <div className="-mt-4 px-5">
+        <div className="mt-5 px-5">
           <h2 className="text-[26px] font-black leading-tight tracking-tight">
             {t.bombe.setup.headline}
           </h2>
