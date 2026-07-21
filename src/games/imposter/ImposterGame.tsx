@@ -33,35 +33,35 @@ export default function ImposterGame() {
     });
   };
 
+  // The rule is announced to the whole group before any card is handed out,
+  // so it is the first screen of a round whenever one was drawn.
+  const openingPhase = (r: Round): Phase => (r.ruleId ? 'rule' : 'reveal');
+
   const start = (s: ImposterSettings) => {
     const norm = normalizeSettings(s);
+    const next = makeRound(norm);
     setSettings(norm);
-    setRound(makeRound(norm));
-    setPhase('reveal');
+    setRound(next);
+    setPhase(openingPhase(next));
   };
 
   const replay = () => {
     if (!settings) return;
-    setRound(makeRound(settings));
-    setPhase('reveal');
+    const next = makeRound(settings);
+    setRound(next);
+    setPhase(openingPhase(next));
   };
 
   if (phase === 'setup' || !settings || !round) {
     return <SetupScreen onStart={start} onExit={() => navigate('/')} />;
   }
 
-  if (phase === 'reveal') {
-    // Skip the rule screen entirely when no rule was drawn for this round.
-    return (
-      <RevealScreen
-        round={round}
-        onDone={() => setPhase(round.ruleId ? 'rule' : 'starter')}
-      />
-    );
+  if (phase === 'rule') {
+    return <RuleScreen ruleId={round.ruleId} onContinue={() => setPhase('reveal')} />;
   }
 
-  if (phase === 'rule') {
-    return <RuleScreen ruleId={round.ruleId} onContinue={() => setPhase('starter')} />;
+  if (phase === 'reveal') {
+    return <RevealScreen round={round} onDone={() => setPhase('starter')} />;
   }
 
   if (phase === 'starter') {
