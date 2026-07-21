@@ -195,6 +195,7 @@ export const de = {
     play: {
       pass: 'Antworten, dann weitergeben!',
       tapHint: 'Tippen für die nächste Aufgabe',
+      muted: 'Kein Ton? Stummschalter am Handy prüfen',
     },
     boom: {
       title: 'BUMM!',

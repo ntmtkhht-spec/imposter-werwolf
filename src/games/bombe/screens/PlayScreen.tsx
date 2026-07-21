@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '../../../i18n';
 import type { BombRound } from '../logic';
-import { playExplosion, playTick } from '../sound';
+import { audioBlocked, playExplosion, playTick } from '../sound';
 import { background } from '../assets';
 import BombGraphic from '../BombGraphic';
 
@@ -15,6 +15,7 @@ export default function PlayScreen({ round, onBoom }: Props) {
   const { t } = useI18n();
   const [taskIndex, setTaskIndex] = useState(0);
   const [intensity, setIntensity] = useState(0);
+  const [muted, setMuted] = useState(false);
   const shownRef = useRef<Set<string>>(new Set([round.tasks[0]]));
   const boomFired = useRef(false);
 
@@ -48,9 +49,14 @@ export default function PlayScreen({ round, onBoom }: Props) {
     };
     tick();
 
+    // Give the context a moment to come up, then tell the player if the
+    // phone is still silencing us — that is a hardware switch, not a bug.
+    const audioCheck = setTimeout(() => setMuted(audioBlocked()), 1200);
+
     return () => {
       cancelled = true;
       clearTimeout(tickTimer);
+      clearTimeout(audioCheck);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round]);
@@ -81,6 +87,9 @@ export default function PlayScreen({ round, onBoom }: Props) {
       <div>
         <div className="text-lg font-bold">{t.bombe.play.pass}</div>
         <div className="mt-1 text-sm text-white/60">{t.bombe.play.tapHint}</div>
+        {muted && (
+          <div className="mt-2 text-xs text-white/40">{t.bombe.play.muted}</div>
+        )}
       </div>
     </button>
   );

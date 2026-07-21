@@ -197,6 +197,7 @@ export const en: Dict = {
     play: {
       pass: 'Answer, then pass it on!',
       tapHint: 'Tap for the next prompt',
+      muted: 'No sound? Check the mute switch on your phone',
     },
     boom: {
       title: 'BOOM!',

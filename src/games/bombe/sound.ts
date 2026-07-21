@@ -1,27 +1,76 @@
 // Bomb audio, synthesized with WebAudio — no asset files needed.
-// The context is created lazily on first use (must follow a user gesture).
+//
+// Mobile browsers only let audio start from a user gesture, and they are
+// stricter than desktop: creating the context and calling resume() is not
+// enough on iOS, a source has to actually run inside the gesture. unlock()
+// does that; everything after it just plays.
+
+type Ctor = typeof AudioContext;
 
 let ctx: AudioContext | null = null;
+let unlocked = false;
 
+function ctor(): Ctor | null {
+  // Safari before 14.1 only exposes the prefixed constructor.
+  const w = window as unknown as { AudioContext?: Ctor; webkitAudioContext?: Ctor };
+  return w.AudioContext ?? w.webkitAudioContext ?? null;
+}
+
+/** The context, if this browser supports WebAudio at all. */
 function audio(): AudioContext | null {
+  if (ctx) return ctx;
+  const C = ctor();
+  if (!C) return null; // no WebAudio — game stays fully playable, just silent
   try {
-    if (!ctx) ctx = new AudioContext();
-    if (ctx.state === 'suspended') void ctx.resume();
+    ctx = new C();
     return ctx;
   } catch {
-    return null; // no audio support — game stays fully playable
+    return null;
   }
 }
 
-/** Create/resume the context inside a user gesture so later sounds may play. */
+/**
+ * Nudge a context that the OS parked back into life. iOS uses 'interrupted'
+ * (e.g. after a phone call or the screen locking) on top of 'suspended'.
+ */
+function ensureRunning(ac: AudioContext) {
+  if (ac.state !== 'running') void ac.resume();
+}
+
+/**
+ * Must be called synchronously inside a tap handler. Creates the context,
+ * resumes it and runs one silent sample, which is what actually lifts the
+ * autoplay block on iOS.
+ */
 export function primeAudio() {
-  audio();
+  const ac = audio();
+  if (!ac) return;
+  ensureRunning(ac);
+  if (unlocked) return;
+  try {
+    const buffer = ac.createBuffer(1, 1, ac.sampleRate);
+    const src = ac.createBufferSource();
+    src.buffer = buffer;
+    src.connect(ac.destination);
+    src.start(0);
+    unlocked = true;
+  } catch {
+    // Unlock failed; later sounds still try, they just may stay silent.
+  }
+}
+
+// Coming back from the lock screen or another tab leaves the context parked.
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && ctx) ensureRunning(ctx);
+  });
 }
 
 /** Short dry click, like a clock. */
 export function playTick() {
   const ac = audio();
   if (!ac) return;
+  ensureRunning(ac);
   const osc = ac.createOscillator();
   const gain = ac.createGain();
   osc.type = 'square';
@@ -37,6 +86,7 @@ export function playTick() {
 export function playExplosion() {
   const ac = audio();
   if (!ac) return;
+  ensureRunning(ac);
 
   const noiseLen = 0.9;
   const buffer = ac.createBuffer(1, ac.sampleRate * noiseLen, ac.sampleRate);
@@ -62,4 +112,9 @@ export function playExplosion() {
   boom.connect(boomGain).connect(ac.destination);
   boom.start();
   boom.stop(ac.currentTime + 0.85);
+}
+
+/** Whether audio is actually running, so the UI can warn when it is not. */
+export function audioBlocked(): boolean {
+  return !ctx || ctx.state !== 'running';
 }
